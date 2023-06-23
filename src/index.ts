@@ -1,10 +1,11 @@
+import 'module-alias/register';
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 
 // Database
-import connectDB from './database/db';
-import routerApi from './routes';
+import connectDB from '@database/db';
+import routerApi from '@routes/routes';
 
 const app = express();
 app.use(express.json());

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User from '../User.model';
 
-const create = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
   const { email } = req.body;
 
   try {
@@ -28,5 +28,3 @@ const create = async (req: Request, res: Response) => {
     res.status(500).json({ msg: 'Error interno' });
   }
 };
-
-export default create;

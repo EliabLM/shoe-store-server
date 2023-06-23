@@ -1,8 +1,6 @@
 import { Router } from 'express';
-import create from './controllers/create.usuarios';
+import { createUser } from '@api/usuarios/controllers';
 
-const router = Router();
+export const usersRouter = Router();
 
-router.post('/create-user', create);
-
-export default router;
+usersRouter.post('/create-user', createUser);

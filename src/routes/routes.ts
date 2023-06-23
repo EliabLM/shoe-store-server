@@ -1,5 +1,5 @@
 import { Express, Router } from 'express';
-import usersRouter from '../api/usuarios/usuarios.routes';
+import { usersRouter } from '@api/usuarios';
 
 const routerApi = (app: Express) => {
   const router = Router();
