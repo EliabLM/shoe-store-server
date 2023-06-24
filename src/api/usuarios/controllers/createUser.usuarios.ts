@@ -25,6 +25,7 @@ export const createUser = async (req: Request, res: Response) => {
       data: { nombre: storedUser.nombre, email: storedUser.email },
     });
   } catch (error) {
+    console.error('🚀 ~ createUser ~ error:', error);
     res.status(500).json({ msg: 'Error interno' });
   }
 };
