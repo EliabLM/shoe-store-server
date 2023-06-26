@@ -26,6 +26,6 @@ export const createUser = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('🚀 ~ createUser ~ error:', error);
-    res.status(500).json({ msg: 'Error interno' });
+    res.status(500).json({ msg: 'Error interno', error });
   }
 };
