@@ -5,14 +5,15 @@ export const readUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find();
 
-    const newUsers = users.map((user) => ({
-      id: user._id,
-      nombre: user.nombre,
-      email: user.email,
-      rol: user.rol,
-      local: user.local,
-      activo: user.activo,
-    }));
+    const newUsers = users
+      .filter((activeUser) => activeUser.activo)
+      .map((user) => ({
+        id: user._id,
+        nombre: user.nombre,
+        email: user.email,
+        rol: user.rol,
+        local: user.local,
+      }));
 
     res.json({
       code: 200,

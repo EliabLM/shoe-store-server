@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User from '../User.model';
+import { IResponse } from 'interfaces';
 
 export const createUser = async (req: Request, res: Response) => {
   const { email } = req.body;
@@ -10,7 +11,13 @@ export const createUser = async (req: Request, res: Response) => {
 
     if (existUser) {
       const error = new Error('El usuario ya se encuentra registrado');
-      return res.status(400).json({ msg: error.message });
+      const resError: IResponse = {
+        code: 400,
+        message: error.message,
+        data: null,
+      };
+
+      return res.status(400).json(resError);
     }
 
     const user = new User(req.body);
@@ -20,12 +27,20 @@ export const createUser = async (req: Request, res: Response) => {
 
     const storedUser = await user.save();
 
-    res.status(201).json({
-      msg: 'Usuario creado exitosamente',
+    const resUsuarioCreado: IResponse = {
+      code: 201,
+      message: 'Usuario creado exitosamente',
       data: { nombre: storedUser.nombre, email: storedUser.email },
-    });
+    };
+
+    res.status(201).json(resUsuarioCreado);
   } catch (error) {
-    console.error('🚀 ~ createUser ~ error:', error);
-    res.status(500).json({ msg: 'Error interno', error });
+    const response: IResponse = {
+      code: 500,
+      message: 'Ha ocurrido un error interno',
+      data: null,
+    };
+
+    res.status(500).json(response);
   }
 };

@@ -1,44 +1,37 @@
+import { User } from 'interfaces';
 import { Schema, model } from 'mongoose';
 import { Enum_Local, Enum_Rol } from './enums.usuarios';
 
-interface IUser {
-  nombre: string;
-  password: string;
-  email: string;
-  rol: Enum_Rol;
-  local: Enum_Local;
-  activo: boolean;
-}
-
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<User>({
   nombre: {
     type: String,
-    required: true,
+    required: [true, 'El nombre es requerido'],
     trim: true,
   },
   password: {
     type: String,
-    required: true,
+    required: [true, 'La contraseña es requerida'],
+    trim: true,
   },
   email: {
     type: String,
-    required: true,
+    required: [true, 'El correo es requerido'],
     trim: true,
     unique: true,
+    lowercase: true,
   },
   rol: {
     type: String,
-    required: true,
     enum: Enum_Rol,
+    default: Enum_Rol.VENDEDOR,
   },
   local: {
     type: String,
-    required: true,
     enum: Enum_Local,
+    default: Enum_Local.LOCAL1,
   },
   activo: {
     type: Boolean,
-    required: true,
     default: true,
   },
 });
