@@ -9,8 +9,15 @@ export interface User {
   activo: boolean;
 }
 
+export interface ICreditor {
+  name: string;
+  contact: string;
+  active: boolean;
+}
+
 export interface IResponse {
   code: number;
   message: string;
   data: object | null | undefined;
+  error?: unknown;
 }

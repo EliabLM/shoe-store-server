@@ -39,6 +39,7 @@ export const createUser = async (req: Request, res: Response) => {
       code: 500,
       message: 'Ha ocurrido un error interno',
       data: null,
+      error,
     };
 
     res.status(500).json(response);

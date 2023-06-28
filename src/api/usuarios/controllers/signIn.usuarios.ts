@@ -54,6 +54,7 @@ export const signIn = async (req: Request<SignInRequest>, res: Response) => {
       code: 500,
       message: 'Ha ocurrido un error interno',
       data: null,
+      error,
     };
 
     res.status(500).json(response);
