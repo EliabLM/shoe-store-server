@@ -1,23 +1,25 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import boom from '@hapi/boom';
+
+// Model
 import User from '../User.model';
+
+// Interfaces
 import { IResponse } from 'interfaces';
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { email } = req.body;
 
   try {
     const existUser = await User.findOne({ email });
 
     if (existUser) {
-      const error = new Error('El usuario ya se encuentra registrado');
-      const resError: IResponse = {
-        code: 400,
-        message: error.message,
-        data: null,
-      };
-
-      return res.status(400).json(resError);
+      throw boom.badRequest('El usuario ya se encuentra registrado');
     }
 
     const user = new User(req.body);
@@ -28,20 +30,13 @@ export const createUser = async (req: Request, res: Response) => {
     const storedUser = await user.save();
 
     const resUsuarioCreado: IResponse = {
-      code: 201,
+      statusCode: 201,
       message: 'Usuario creado exitosamente',
       data: { nombre: storedUser.nombre, email: storedUser.email },
     };
 
     res.status(201).json(resUsuarioCreado);
   } catch (error) {
-    const response: IResponse = {
-      code: 500,
-      message: 'Ha ocurrido un error interno',
-      data: null,
-      error,
-    };
-
-    res.status(500).json(response);
+    next(error);
   }
 };

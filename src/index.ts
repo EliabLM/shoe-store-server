@@ -5,7 +5,16 @@ import cors from 'cors';
 
 // Database
 import connectDB from '@database/db';
+
+// Routes
 import routerApi from '@routes/routes';
+
+// Middlewares
+import {
+  boomErrorHandler,
+  logError,
+  errorHandler,
+} from '@middlewares/error.handler';
 
 const app = express();
 app.use(express.json());
@@ -14,6 +23,10 @@ app.use(cors());
 connectDB();
 
 routerApi(app);
+
+app.use(logError);
+app.use(boomErrorHandler);
+app.use(errorHandler);
 
 app.get('/', (req, res) => {
   res.send('Servidor conectado');

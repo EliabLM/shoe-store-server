@@ -1,4 +1,5 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import boom from '@hapi/boom';
 
 // Model
 import Acreedor from '../Acreedor.model';
@@ -13,7 +14,8 @@ interface CreditorRequest {
 
 export const createCreditor = async (
   req: Request<CreditorRequest>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const { name } = req.body;
 
@@ -21,15 +23,7 @@ export const createCreditor = async (
     const creditorExists = await Acreedor.findOne({ name });
 
     if (creditorExists) {
-      const error = new Error('El acreedor ya se encuentra registrado');
-
-      const resError: IResponse = {
-        code: 400,
-        message: error.message,
-        data: null,
-      };
-
-      return res.status(400).json(resError);
+      throw boom.badRequest('El acreedor ya se encuentra registrado');
     }
 
     const creditor = new Acreedor(req.body);
@@ -37,7 +31,7 @@ export const createCreditor = async (
     const storedCreditor = await creditor.save();
 
     const resCreateCreditor: IResponse = {
-      code: 201,
+      statusCode: 201,
       message: 'Acreedor creado exitosamente',
       data: {
         nombre: storedCreditor.name,
@@ -47,13 +41,6 @@ export const createCreditor = async (
 
     return res.status(201).json(resCreateCreditor);
   } catch (error) {
-    const badResponse: IResponse = {
-      code: 500,
-      message: 'Ha ocurrido un error interno',
-      data: null,
-      error,
-    };
-
-    res.status(500).json(badResponse);
+    next(error);
   }
 };

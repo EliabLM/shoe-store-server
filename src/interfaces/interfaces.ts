@@ -16,8 +16,14 @@ export interface ICreditor {
 }
 
 export interface IResponse {
-  code: number;
+  statusCode: number;
   message: string;
   data: object | null | undefined;
-  error?: unknown;
+}
+
+export interface IGenericError {
+  statusCode: number;
+  error: string | undefined;
+  message: string;
+  stack?: string;
 }
