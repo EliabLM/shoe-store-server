@@ -7,13 +7,8 @@ import Acreedor from '../Acreedor.model';
 // Interfaces
 import { IResponse } from 'interfaces';
 
-interface CreditorRequest {
-  name: string;
-  contact?: string;
-}
-
 export const createCreditor = async (
-  req: Request<CreditorRequest>,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {

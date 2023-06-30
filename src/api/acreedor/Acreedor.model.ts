@@ -10,6 +10,7 @@ const creditorSchema = new Schema<ICreditor>({
   },
   contact: {
     type: String,
+    default: '',
   },
   active: {
     type: Boolean,

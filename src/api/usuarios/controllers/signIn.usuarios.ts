@@ -8,13 +8,8 @@ import User from '../User.model';
 // Interfaces
 import { IResponse } from 'interfaces';
 
-interface SignInRequest {
-  email: string;
-  password: string;
-}
-
 export const signIn = async (
-  req: Request<SignInRequest>,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
