@@ -8,6 +8,7 @@ import { validatorHandler } from '@middlewares/index';
 
 // Schemas
 import { createUserSchema, loginSchema } from './schemas.usuarios';
+import { deleteUser } from './controllers/deleteUser.usuarios';
 
 export const usersRouter = Router();
 
@@ -23,3 +24,6 @@ usersRouter.get('/get-users', readUsers);
 
 // Autenticar usuario
 usersRouter.post('/login', validatorHandler(loginSchema, 'body'), signIn);
+
+// Eliminar usuario
+usersRouter.put('/delete-user', deleteUser);
