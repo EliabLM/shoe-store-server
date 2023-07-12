@@ -4,7 +4,7 @@ import Joi from 'joi';
 import { Enum_Local, Enum_Rol } from './enums.usuarios';
 
 const nombre = Joi.string().min(3).max(20);
-const password = Joi.string();
+// const password = Joi.string();
 const email = Joi.string().email();
 const rol = Joi.string().valid(
   Enum_Rol.SUPERADMIN,
@@ -26,10 +26,10 @@ export const createUserSchema = Joi.object({
     'string.min': 'El nombre debe tener al menos {#limit} caracteres',
     'string.max': 'El nombre no puede tener más de {#limit} caracteres',
   }),
-  password: password.required().messages({
-    'string.base': 'La contraseña debe ser una cadena de texto',
-    'string.empty': 'La contraseña es obligatoria',
-  }),
+  // password: password.required().messages({
+  //   'string.base': 'La contraseña debe ser una cadena de texto',
+  //   'string.empty': 'La contraseña es obligatoria',
+  // }),
   email: email.required().messages({
     'string.base': 'El correo electrónico debe ser una cadena de texto',
     'string.empty': 'El correo electrónico es obligatorio',

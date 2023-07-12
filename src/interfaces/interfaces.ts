@@ -7,6 +7,7 @@ export interface User {
   rol: Rol;
   local: Local;
   activo: boolean;
+  hasPassword: boolean;
 }
 
 export interface ICreditor {

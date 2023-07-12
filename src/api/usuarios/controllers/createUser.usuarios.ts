@@ -25,7 +25,7 @@ export const createUser = async (
     const user = new User(req.body);
 
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
+    user.password = await bcrypt.hash(process.env.GENERIC_PASSWORD || '', salt);
 
     const storedUser = await user.save();
 

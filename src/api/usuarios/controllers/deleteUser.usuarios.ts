@@ -30,6 +30,7 @@ export const deleteUser = async (
     }
 
     const deletedUser = {
+      id: response._id,
       nombre: response?.nombre,
       email: response?.email,
       rol: response?.rol,
