@@ -12,7 +12,7 @@ export const readUsers = async (
   next: NextFunction
 ) => {
   try {
-    const users = await User.find({ activo: true });
+    const users = await User.find();
 
     const newUsers = users.map((user) => ({
       id: user._id,
@@ -20,6 +20,7 @@ export const readUsers = async (
       email: user.email,
       rol: user.rol,
       local: user.local,
+      activo: user.activo,
     }));
 
     const resUsers: IResponse = {

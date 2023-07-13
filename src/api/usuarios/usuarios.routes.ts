@@ -1,14 +1,23 @@
 import { Router } from 'express';
 
 // Controllers
-import { createUser, signIn, readUsers } from '@api/usuarios/controllers';
+import {
+  createUser,
+  signIn,
+  readUsers,
+  deleteUser,
+  updateUser,
+} from '@api/usuarios/controllers';
 
 // Middlewares
 import { validatorHandler } from '@middlewares/index';
 
 // Schemas
-import { createUserSchema, loginSchema } from './schemas.usuarios';
-import { deleteUser } from './controllers/deleteUser.usuarios';
+import {
+  createUserSchema,
+  updateUserSchema,
+  loginSchema,
+} from './schemas.usuarios';
 
 export const usersRouter = Router();
 
@@ -27,3 +36,10 @@ usersRouter.post('/login', validatorHandler(loginSchema, 'body'), signIn);
 
 // Eliminar usuario
 usersRouter.put('/delete-user', deleteUser);
+
+// Actualizar usuario
+usersRouter.put(
+  '/update-user',
+  validatorHandler(updateUserSchema, 'body'),
+  updateUser
+);
