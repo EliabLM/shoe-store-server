@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 // Controllers
-import { createCreditor } from '@api/acreedor/controllers';
+import { createCreditor, getCreditors } from '@api/acreedor/controllers';
 
 // Middlewares
 import { validatorHandler } from '@middlewares/validator.handler';
@@ -17,3 +17,6 @@ creditorsRouter.post(
   validatorHandler(createCreditorSchema, 'body'),
   createCreditor
 );
+
+// Obtener acreedores
+creditorsRouter.get('/get-creditors', getCreditors);

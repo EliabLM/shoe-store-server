@@ -1,5 +1,4 @@
-export { default as Acreedor } from './Acreedor.model';
-export * from './acreedores.routes';
+export { default as Creditor } from './Creditor.model';
 export * from './controllers';
-export * from './index';
+export * from './creditors.routes';
 export * from './schemas.acreedores';

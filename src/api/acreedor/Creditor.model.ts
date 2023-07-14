@@ -18,5 +18,5 @@ const creditorSchema = new Schema<ICreditor>({
   },
 });
 
-const Acreedor = model('Acreedor', creditorSchema, 'acreedores');
-export default Acreedor;
+const Creditor = model('Creditor', creditorSchema, 'acreedores');
+export default Creditor;

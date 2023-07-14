@@ -1,1 +1,2 @@
-export * from './crearAcreedor';
+export * from './createCreditor';
+export * from './getCreditors';
