@@ -5,6 +5,7 @@ import {
   createCreditor,
   disableCreditor,
   getCreditors,
+  updateCreditor,
 } from '@api/acreedor/controllers';
 
 // Middlewares
@@ -27,3 +28,6 @@ creditorsRouter.get('/get-creditors', getCreditors);
 
 // Deshabilitar acreedor
 creditorsRouter.put('/disable-creditor', disableCreditor);
+
+// Actualizar acreedor
+creditorsRouter.put('/update-creditor', updateCreditor);
