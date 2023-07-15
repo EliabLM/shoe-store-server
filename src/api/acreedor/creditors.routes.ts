@@ -1,7 +1,11 @@
 import { Router } from 'express';
 
 // Controllers
-import { createCreditor, getCreditors } from '@api/acreedor/controllers';
+import {
+  createCreditor,
+  disableCreditor,
+  getCreditors,
+} from '@api/acreedor/controllers';
 
 // Middlewares
 import { validatorHandler } from '@middlewares/validator.handler';
@@ -20,3 +24,6 @@ creditorsRouter.post(
 
 // Obtener acreedores
 creditorsRouter.get('/get-creditors', getCreditors);
+
+// Deshabilitar acreedor
+creditorsRouter.put('/disable-creditor', disableCreditor);

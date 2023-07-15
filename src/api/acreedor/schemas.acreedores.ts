@@ -10,7 +10,8 @@ export const createCreditorSchema = Joi.object({
     'string.min': 'El nombre debe tener al menos {#limit} caracteres',
     'string.max': 'El nombre no puede tener más de {#limit} caracteres',
   }),
-  contact: contact.messages({
+  contact: contact.required().messages({
     'string.base': 'El número de contacto debe ser una cadena de texto',
+    'string.empty': 'El número de contacto es obligatorio',
   }),
 });
