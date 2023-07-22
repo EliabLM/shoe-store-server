@@ -1,4 +1,5 @@
 import { Local, Rol } from 'types';
+import { Types } from 'mongoose';
 
 export interface User {
   nombre: string;
@@ -13,6 +14,14 @@ export interface User {
 export interface ICreditor {
   name: string;
   contact: string;
+  active: boolean;
+}
+
+export interface ICredit {
+  creditor: Types.ObjectId;
+  initialValue: number;
+  creationDate: string;
+  interestRate: string;
   active: boolean;
 }
 
