@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 // Controllers
-import { createCredit } from '@api/credits/controllers';
+import { createCredit, getCreditsByCreditorId } from '@api/credits/controllers';
 
 // Middlewares
 import { validatorHandler } from '@middlewares/validator.handler';
@@ -11,9 +11,12 @@ import { createCreditSchema } from './schemas.credits';
 
 export const creditsRouter = Router();
 
-// Crear acreedor
+// Create creditor
 creditsRouter.post(
   '/create-credit',
   validatorHandler(createCreditSchema, 'body'),
   createCredit
 );
+
+// Get credits by creditor id
+creditsRouter.get('/get-credits-by-id', getCreditsByCreditorId);
