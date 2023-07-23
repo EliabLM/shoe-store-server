@@ -3,6 +3,7 @@ import { Router } from 'express';
 // Controllers
 import {
   createCreditor,
+  deleteCreditor,
   disableCreditor,
   getCreditors,
   updateCreditor,
@@ -16,18 +17,21 @@ import { createCreditorSchema } from './schemas.acreedores';
 
 export const creditorsRouter = Router();
 
-// Crear acreedor
+// Create creditor
 creditorsRouter.post(
   '/create-creditor',
   validatorHandler(createCreditorSchema, 'body'),
   createCreditor
 );
 
-// Obtener acreedores
+// Get creditors
 creditorsRouter.get('/get-creditors', getCreditors);
 
-// Deshabilitar acreedor
+// Disable creditor
 creditorsRouter.put('/disable-creditor', disableCreditor);
 
-// Actualizar acreedor
+// Update creditor
 creditorsRouter.put('/update-creditor', updateCreditor);
+
+// Delete creditor
+creditorsRouter.delete('/delete-creditor', deleteCreditor);
