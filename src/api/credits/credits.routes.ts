@@ -1,7 +1,11 @@
 import { Router } from 'express';
 
 // Controllers
-import { createCredit, getCreditsByCreditorId } from '@api/credits/controllers';
+import {
+  createCredit,
+  getAllCredits,
+  getCreditsByCreditorId,
+} from '@api/credits/controllers';
 
 // Middlewares
 import { validatorHandler } from '@middlewares/validator.handler';
@@ -20,3 +24,6 @@ creditsRouter.post(
 
 // Get credits by creditor id
 creditsRouter.get('/get-credits-by-id', getCreditsByCreditorId);
+
+// Get all credits
+creditsRouter.get('/get-credits', getAllCredits);
