@@ -1,6 +1,6 @@
 import Boom from '@hapi/boom';
 import { NextFunction, Request, Response } from 'express';
-import { IGenericError } from 'interfaces';
+import { IGenericError } from '../interfaces';
 
 export function logError(
   error: Error,

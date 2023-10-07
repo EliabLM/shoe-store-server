@@ -39,9 +39,10 @@
     "prettier": "^2.8.8"
   },
   "_moduleAliases": {
-    "@api": "build/api",
     "@database": "build/database",
     "@routes": "build/routes",
-    "@middlewares": "build/middlewares"
+    "@middlewares": "build/middlewares",
+    "@models": "build/models",
+    "@controllers": "build/controllers"
   }
 }

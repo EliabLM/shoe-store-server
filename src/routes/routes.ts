@@ -1,7 +1,7 @@
 import { Express, Router } from 'express';
-import { usersRouter } from '@api/usuarios';
-import { creditorsRouter } from '@api/acreedor';
-import { creditsRouter } from '@api/credits';
+import { usersRouter } from './users';
+import { creditorsRouter } from './creditors';
+import { creditsRouter } from './credits';
 
 const routerApi = (app: Express) => {
   const router = Router();
