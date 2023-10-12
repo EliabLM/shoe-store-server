@@ -1,21 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
-import Joi from 'joi';
+import { Schema as YupSchema, ValidationError } from 'yup';
 import boom from '@hapi/boom';
 
 export function validatorHandler(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  schema: Joi.ObjectSchema<any>,
+  schema: YupSchema<any>,
   property: keyof Request
 ) {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     const data = req[property];
 
-    const { error } = schema.validate(data, { abortEarly: false });
-
-    if (error) {
-      next(boom.badRequest(error));
+    try {
+      await schema.validate(data, { abortEarly: false });
+      next();
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        const errorMessage = error.inner.map((err) => err.message);
+        next(boom.badRequest(errorMessage.join('. ')));
+      } else {
+        next(error);
+      }
     }
-
-    next();
   };
 }

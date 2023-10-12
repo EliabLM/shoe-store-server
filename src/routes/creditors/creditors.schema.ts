@@ -1,17 +1,9 @@
-import Joi from 'joi';
+import * as yup from 'yup';
 
-const name = Joi.string().min(3).max(20);
-const contact = Joi.string();
+const name = yup.string().min(3, 'Debe ingresar mínimo 3 caracteres');
+const contact = yup.string().max(20, 'Debe ingresar máximo 20 caracteres');
 
-export const createCreditorSchema = Joi.object({
-  name: name.required().messages({
-    'string.base': 'El nombre debe ser una cadena de texto',
-    'string.empty': 'El nombre es obligatorio',
-    'string.min': 'El nombre debe tener al menos {#limit} caracteres',
-    'string.max': 'El nombre no puede tener más de {#limit} caracteres',
-  }),
-  contact: contact.required().messages({
-    'string.base': 'El número de contacto debe ser una cadena de texto',
-    'string.empty': 'El número de contacto es obligatorio',
-  }),
+export const createCreditorSchema = yup.object().shape({
+  name: name.required('El nombre del acreedor es obligatorio'),
+  contact: contact.required('El número de contacto es obligatorio'),
 });

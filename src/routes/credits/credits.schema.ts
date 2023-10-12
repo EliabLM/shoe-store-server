@@ -1,53 +1,39 @@
-import Joi from 'joi';
+import * as Yup from 'yup';
 
-const creditor = Joi.string();
-const initialValue = Joi.number().min(1000);
-const creationDate = Joi.string();
-const interestRate = Joi.string();
-const active = Joi.bool();
-const id = Joi.string();
-
-export const createCreditSchema = Joi.object({
-  creditor: creditor.required().messages({
-    'string.base': 'El acreedor debe ser una cadena de texto',
-    'string.empty': 'El acreedor es obligatorio',
-  }),
-  initialValue: initialValue.required().messages({
-    'number.base': 'El valor inicial debe ser un número',
-    'number.empty': 'El valor inicial es obligatorio',
-    'number.min': 'El valor mínimo es 1000',
-  }),
-  creationDate: creationDate.required().messages({
-    'string.base': 'La fecha de creación debe ser una cadena de texto',
-    'string.empty': 'La fecha de creación es obligatoria',
-  }),
-  interestRate: interestRate.required().messages({
-    'string.base': 'La tasa de interés debe ser una cadena de texto',
-    'string.empty': 'La tasa de interés es obligatoria',
-  }),
+const createCreditSchema = Yup.object().shape({
+  creditor: Yup.string()
+    .required('El acreedor es obligatorio')
+    .typeError('El acreedor debe ser una cadena de texto'),
+  initialValue: Yup.number()
+    .required('El valor inicial es obligatorio')
+    .typeError('El valor inicial debe ser un número')
+    .min(1000, 'El valor mínimo es 1000'),
+  creationDate: Yup.string()
+    .required('La fecha de creación es obligatoria')
+    .typeError('La fecha de creación debe ser una cadena de texto'),
+  interestRate: Yup.string()
+    .required('La tasa de interés es obligatoria')
+    .typeError('La tasa de interés debe ser una cadena de texto'),
 });
 
-export const updateCreditSchema = Joi.object({
-  creditor: creditor.required().messages({
-    'string.base': 'El acreedor debe ser una cadena de texto',
-    'string.empty': 'El acreedor es obligatorio',
-  }),
-  initialValue: initialValue.required().messages({
-    'number.base': 'El valor inicial debe ser un número',
-    'number.empty': 'El valor inicial es obligatorio',
-    'number.min': 'El valor mínimo es 1000',
-  }),
-  creationDate: creationDate.required().messages({
-    'string.base': 'La fecha de creación debe ser una cadena de texto',
-    'string.empty': 'La fecha de creación es obligatoria',
-  }),
-  interestRate: interestRate.required().messages({
-    'string.base': 'La tasa de interés debe ser una cadena de texto',
-    'string.empty': 'La tasa de interés es obligatoria',
-  }),
-  active: active.required(),
-  id: id.required().messages({
-    'string.base': 'El id debe ser una cadena de texto',
-    'string.empty': 'El id es obligatorio',
-  }),
+const updateCreditSchema = Yup.object().shape({
+  creditor: Yup.string()
+    .required('El acreedor es obligatorio')
+    .typeError('El acreedor debe ser una cadena de texto'),
+  initialValue: Yup.number()
+    .required('El valor inicial es obligatorio')
+    .typeError('El valor inicial debe ser un número')
+    .min(1000, 'El valor mínimo es 1000'),
+  creationDate: Yup.string()
+    .required('La fecha de creación es obligatoria')
+    .typeError('La fecha de creación debe ser una cadena de texto'),
+  interestRate: Yup.string()
+    .required('La tasa de interés es obligatoria')
+    .typeError('La tasa de interés debe ser una cadena de texto'),
+  active: Yup.boolean().required(),
+  id: Yup.string()
+    .required('El id es obligatorio')
+    .typeError('El id debe ser una cadena de texto'),
 });
+
+export { createCreditSchema, updateCreditSchema };
