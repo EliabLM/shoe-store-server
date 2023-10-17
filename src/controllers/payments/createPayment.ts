@@ -16,9 +16,9 @@ export const createPayment = async (
   try {
     const { credit } = req.body;
 
-    const creditStored = await Credit.findById(credit);
-
-    if (!creditStored) {
+    try {
+      await Credit.findById(credit);
+    } catch (error) {
       throw boom.notFound('No existe el crédito');
     }
 
