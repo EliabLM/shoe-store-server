@@ -14,7 +14,7 @@ export const getCreditors = async (
   try {
     const creditors = await Creditor.find();
 
-    const newCreditor = creditors.map((creditor) => ({
+    const allCreditors = creditors.map((creditor) => ({
       id: creditor._id,
       name: creditor.name,
       contact: creditor.contact,
@@ -24,7 +24,7 @@ export const getCreditors = async (
     const resCreditors: IResponse = {
       statusCode: 200,
       message: 'Operación realizada exitosamente',
-      data: newCreditor,
+      data: allCreditors,
     };
 
     res.json(resCreditors);

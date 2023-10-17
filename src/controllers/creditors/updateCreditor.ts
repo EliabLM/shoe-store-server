@@ -15,19 +15,19 @@ export const updateCreditor = async (
   const { id } = req.body;
 
   try {
-    const existCreditor = await Creditor.findById(id);
-
-    if (!existCreditor) {
+    try {
+      await Creditor.findById(id);
+    } catch (error) {
       throw boom.notFound('El acreedor no existe en sistema');
     }
 
-    const newUser = {
+    const newCreditor = {
       name: req.body.name,
       contact: req.body.contact,
       active: req.body.active,
     };
 
-    const updatedCreditor = await Creditor.findByIdAndUpdate(id, newUser, {
+    const updatedCreditor = await Creditor.findByIdAndUpdate(id, newCreditor, {
       new: true,
     });
 

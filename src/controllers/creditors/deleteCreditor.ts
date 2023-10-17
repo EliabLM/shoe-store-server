@@ -20,6 +20,12 @@ export const deleteCreditor = async (
       throw boom.badRequest('El id del acreedor es obligatorio');
     }
 
+    try {
+      await Creditor.findById(creditor_id);
+    } catch (error) {
+      throw boom.notFound('No existe el acreedor');
+    }
+
     const credits = await Credit.find({ creditor: creditor_id });
 
     if (credits.length > 0) {

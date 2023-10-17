@@ -19,21 +19,22 @@ export const disableCreditor = async (
       throw boom.badRequest('El id del acreedor es obligatorio');
     }
 
-    const response = await Creditor.findByIdAndUpdate(
-      creditor_id,
-      { active: false },
-      { new: true }
-    );
-
-    if (!response) {
+    let response;
+    try {
+      response = await Creditor.findByIdAndUpdate(
+        creditor_id,
+        { active: false },
+        { new: true }
+      );
+    } catch (error) {
       throw boom.notFound('No se encontró el acreedor');
     }
 
     const creditorDisabled = {
-      id: response._id,
+      id: response?._id,
       name: response?.name,
       contact: response?.contact,
-      active: response.active,
+      active: response?.active,
     };
 
     const resCreditorDisabled: IResponse = {
