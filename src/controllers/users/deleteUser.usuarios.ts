@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import boom from '@hapi/boom';
 
-// Model
+// Models
 import User from '@models/users/User.model';
 
 // Interfaces
-import { IResponse } from '../../interfaces';
+import { IResponse } from 'interfaces';
 
 export const deleteUser = async (
   req: Request,
@@ -19,31 +19,29 @@ export const deleteUser = async (
       throw boom.badRequest('El id del usuario es obligatorio');
     }
 
-    const response = await User.findByIdAndUpdate(
-      user_id,
-      { activo: false },
-      { new: true }
-    );
-
-    if (!response) {
-      throw boom.notFound('No se encontró el usuario');
+    try {
+      await User.findById(user_id);
+    } catch (error) {
+      throw boom.notFound('No existe el usuario');
     }
 
-    const deletedUser = {
-      id: response._id,
-      nombre: response?.nombre,
-      email: response?.email,
-      rol: response?.rol,
-      local: response?.local,
-    };
+    // const credits = await Credit.find({ creditor: user_id });
 
-    const resUsuarioEliminado: IResponse = {
+    // if (credits.length > 0) {
+    //   throw boom.badRequest(
+    //     'No es posible eliminar el acreedor porque tiene créditos asociados, primero elimine los créditos asociados y luego proceda a eliminar el acreedor.'
+    //   );
+    // }
+
+    await User.findByIdAndDelete(user_id);
+
+    const resDeleteUser: IResponse = {
       statusCode: 200,
       message: 'Usuario eliminado exitosamente',
-      data: deletedUser,
+      data: null,
     };
 
-    res.status(201).json(resUsuarioEliminado);
+    res.status(200).json(resDeleteUser);
   } catch (error) {
     next(error);
   }

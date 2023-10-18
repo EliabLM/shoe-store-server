@@ -5,20 +5,20 @@ import boom from '@hapi/boom';
 import User from '@models/users/User.model';
 
 // Interfaces
-import { IResponse } from '../../interfaces';
+import { IResponse } from 'interfaces';
 
 export const updateUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.body;
-
   try {
-    const existUser = await User.findById(id);
+    const { id } = req.body;
 
-    if (!existUser) {
-      throw boom.notFound('Usuario no existe en sistema');
+    try {
+      await User.findById(id);
+    } catch (error) {
+      throw boom.notFound('El usuario no existe en sistema');
     }
 
     const newUser = {

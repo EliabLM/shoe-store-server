@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 // Enums
-import { Enum_Local, Enum_Rol } from '../../interfaces';
+import { Enum_Local, Enum_Rol } from 'interfaces';
 
 const nombre = yup
   .string()
