@@ -6,7 +6,7 @@ import boom from '@hapi/boom';
 import User from '@models/users/User.model';
 
 // Interfaces
-import { IResponse } from 'interfaces';
+import { IResponse } from '../../interfaces';
 
 export const createUser = async (
   req: Request,
