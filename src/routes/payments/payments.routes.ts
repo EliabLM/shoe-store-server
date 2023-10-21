@@ -1,7 +1,11 @@
 import { Router } from 'express';
 
 // Controllers
-import { createPayment } from '@controllers/payments';
+import {
+  createPayment,
+  getAllPayments,
+  getPaymentsByCreditId,
+} from '@controllers/payments';
 
 // Middlewares
 import { validatorHandler } from '@middlewares/validator.handler';
@@ -17,3 +21,7 @@ paymentsRouter.post(
   validatorHandler(createPaymentSchema, 'body'),
   createPayment
 );
+
+paymentsRouter.get('/get-payments', getAllPayments);
+
+paymentsRouter.get('/get-payments-by-credit-id', getPaymentsByCreditId);
