@@ -25,6 +25,15 @@ export enum Enum_Local {
   LOCAL4 = 'LOCAL4',
 }
 
+// Supplier
+export interface ISupplier {
+  name: string;
+  email?: string;
+  contact?: string;
+  active: boolean;
+}
+
+// #####################################
 // Creditor
 export interface ICreditor {
   name: string;

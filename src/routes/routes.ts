@@ -3,6 +3,7 @@ import { usersRouter } from './users';
 import { creditorsRouter } from './creditors';
 import { creditsRouter } from './credits';
 import { paymentsRouter } from './payments';
+import { suppliersRouter } from './suppliers';
 
 const routerApi = (app: Express) => {
   const router = Router();
@@ -13,6 +14,7 @@ const routerApi = (app: Express) => {
   router.use('/creditors', creditorsRouter);
   router.use('/credits', creditsRouter);
   router.use('/payments', paymentsRouter);
+  router.use('/suppliers', suppliersRouter);
 };
 
 export default routerApi;
