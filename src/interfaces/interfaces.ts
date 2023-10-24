@@ -41,6 +41,12 @@ export interface ICustomer {
   active: boolean;
 }
 
+// Brand
+export interface IBrand {
+  name: string;
+  active: boolean;
+}
+
 // #####################################
 // Creditor
 export interface ICreditor {
