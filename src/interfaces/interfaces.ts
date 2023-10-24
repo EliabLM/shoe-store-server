@@ -33,6 +33,14 @@ export interface ISupplier {
   active: boolean;
 }
 
+// Customer
+export interface ICustomer {
+  name: string;
+  email?: string;
+  contact?: string;
+  active: boolean;
+}
+
 // #####################################
 // Creditor
 export interface ICreditor {
