@@ -54,6 +54,12 @@ export interface ILocation {
   active: boolean;
 }
 
+// Categories
+export interface ICategory {
+  name: string;
+  active: boolean;
+}
+
 // #####################################
 // Creditor
 export interface ICreditor {
