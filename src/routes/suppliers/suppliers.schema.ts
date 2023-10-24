@@ -23,7 +23,7 @@ export const createSupplierSchema = yup.object().shape({
 
 export const updateSupplierSchema = yup.object().shape({
   id: id.required('El id del proveedor es obligatorio'),
-  name: name.required('El nombres del proveedor es obligatorio'),
+  name: name.required('El nombre del proveedor es obligatorio'),
   contact,
   email,
   active: active.required('El estado es obligatorio'),

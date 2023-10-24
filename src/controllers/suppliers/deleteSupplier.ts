@@ -19,11 +19,8 @@ export const deleteSupplier = async (
       throw boom.badRequest('El id del proveedor es obligatorio');
     }
 
-    try {
-      await Supplier.findById(supplier_id);
-    } catch (error) {
-      throw boom.notFound('No existe el proveedor');
-    }
+    const supplier = await Supplier.findById(supplier_id);
+    if (!supplier) throw boom.notFound('No existe el proveedor');
 
     await Supplier.findByIdAndDelete(supplier_id);
 

@@ -15,11 +15,8 @@ export const updateSupplier = async (
   const { id } = req.body;
 
   try {
-    try {
-      await Supplier.findById(id);
-    } catch (error) {
-      throw boom.notFound('El proveedor no existe');
-    }
+    const supplier = await Supplier.findById(id);
+    if (!supplier) throw boom.notFound('El proveedor no existe');
 
     const newSupplier = {
       name: req.body.name,

@@ -16,7 +16,7 @@ import { createSupplierSchema, updateSupplierSchema } from './suppliers.schema';
 
 export const suppliersRouter = Router();
 
-// Create creditor
+// Create supplier
 suppliersRouter.post(
   '/create-supplier',
   validatorHandler(createSupplierSchema, 'body'),
