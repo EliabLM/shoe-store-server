@@ -47,6 +47,13 @@ export interface IBrand {
   active: boolean;
 }
 
+// Locations
+export interface ILocation {
+  name: string;
+  description: string;
+  active: boolean;
+}
+
 // #####################################
 // Creditor
 export interface ICreditor {
