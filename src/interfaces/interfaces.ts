@@ -60,6 +60,15 @@ export interface ICategory {
   active: boolean;
 }
 
+export interface IProduct {
+  brand: Types.ObjectId;
+  categories: Types.ObjectId[];
+  name: string;
+  description?: string;
+  price: number;
+  active: boolean;
+}
+
 // #####################################
 // Creditor
 export interface ICreditor {
@@ -85,6 +94,7 @@ export interface IPayment {
   active: boolean;
 }
 
+// ####################################
 // General
 export interface IResponse {
   statusCode: number;

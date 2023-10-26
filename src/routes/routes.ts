@@ -8,6 +8,7 @@ import { customersRouter } from './customers';
 import { brandsRouter } from './brands';
 import { locationsRouter } from './locations/locations.routes';
 import { categoriesRouter } from './categories/categories.routes';
+import { productsRouter } from './products';
 
 const routerApi = (app: Express) => {
   const router = Router();
@@ -23,6 +24,7 @@ const routerApi = (app: Express) => {
   router.use('/brands', brandsRouter);
   router.use('/locations', locationsRouter);
   router.use('/categories', categoriesRouter);
+  router.use('/products', productsRouter);
 };
 
 export default routerApi;
