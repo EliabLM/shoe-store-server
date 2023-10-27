@@ -1,28 +1,21 @@
 import { Types } from 'mongoose';
-import { Local, Rol } from 'types';
+import { Role } from 'types';
 
 // User
 export interface User {
-  nombre: string;
+  names: string;
+  code: string;
   password: string;
   email: string;
-  rol: Rol;
-  local: Local;
-  activo: boolean;
-  hasPassword: boolean;
+  role: Role;
+  location: Types.ObjectId;
+  active: boolean;
 }
 
 export enum Enum_Rol {
   SUPERADMIN = 'superadmin',
   ADMIN = 'admin',
   VENDEDOR = 'vendedor',
-}
-
-export enum Enum_Local {
-  LOCAL1 = 'LOCAL1',
-  LOCAL2 = 'LOCAL2',
-  LOCAL3 = 'LOCAL3',
-  LOCAL4 = 'LOCAL4',
 }
 
 // Supplier

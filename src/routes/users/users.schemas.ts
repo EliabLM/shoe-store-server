@@ -1,52 +1,51 @@
 import * as yup from 'yup';
 
 // Enums
-import { Enum_Local, Enum_Rol } from '../../interfaces';
+import { Enum_Rol } from '../../interfaces';
 
-const nombre = yup
+const mongoId = yup.string().matches(/^[0-9a-fA-F]{24}$/, 'El id no es válido');
+const names = yup
   .string()
-  .min(3, 'Debe ingresar mínimo 3 caracteres')
-  .max(20, 'Debe ingresar máximo 20 caracteres');
+  .min(3, 'Los nombres deben tener mínimo 3 caracteres')
+  .max(30, 'Los nombres deben tener máximo 30 caracteres');
+const code = yup
+  .string()
+  .matches(
+    /^[A-Z0-9]{6}$/,
+    'El código debe tener exactamente 6 caracteres, compuestos por letras mayúsculas y números'
+  );
 const email = yup.string().email('Debe ingresar un correo válido');
-const rol = yup
+const role = yup
   .string()
   .oneOf(
     [Enum_Rol.SUPERADMIN, Enum_Rol.ADMIN, Enum_Rol.VENDEDOR],
     'El rol no es válido'
   );
-const local = yup
+const active = yup.boolean();
+const password = yup
   .string()
-  .oneOf(
-    [
-      Enum_Local.LOCAL1,
-      Enum_Local.LOCAL2,
-      Enum_Local.LOCAL3,
-      Enum_Local.LOCAL4,
-    ],
-    'El local no es válido'
-  );
-const activo = yup.boolean();
-const id = yup.string();
-const password = yup.string();
+  .min(6, 'La contraseña debe tener mínimo 6 caracteres');
 
 export const createUserSchema = yup.object().shape({
-  nombre: nombre.required('El nombre es obligatorio'),
+  names: names.required('Los nombres son obligatorios'),
+  code: code.required('El código es obligatorio'),
+  password: password.required('La contraseña es obligatoria'),
   email: email.required('El correo electrónico es obligatorio'),
-  rol: rol.required('El rol es obligatorio'),
-  local: local.required('El local es obligatorio'),
-  activo,
+  role: role.required('El rol es obligatorio'),
+  location: mongoId.required('El id del local es obligatorio'),
 });
 
 export const updateUserSchema = yup.object().shape({
-  nombre: nombre.required('El nombre es obligatorio'),
+  id: mongoId.required('El id del usuario es obligatorio'),
+  names: names.required('Los nombres son obligatorios'),
+  code: code.required('El código es obligatorio'),
   email: email.required('El correo electrónico es obligatorio'),
-  rol: rol.required('El rol es obligatorio'),
-  local: local.required('El local es obligatorio'),
-  activo: activo.required('El estado es obligatorio'),
-  id: id.required('El id es obligatorio'),
+  role: role.required('El rol es obligatorio'),
+  location: mongoId.required('El id del local es obligatorio'),
+  active: active.required('El estado es obligatorio'),
 });
 
 export const loginSchema = yup.object().shape({
-  email: email.required('El correo electrónico es obligatorio'),
+  code: code.required('El código del usuario es obligatorio'),
   password: password.required('La contraseña es obligatoria'),
 });

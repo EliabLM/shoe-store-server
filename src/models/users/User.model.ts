@@ -1,12 +1,20 @@
-import { User, Enum_Local, Enum_Rol } from '../../interfaces';
+import { User, Enum_Rol } from '../../interfaces';
 import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema<User>(
   {
-    nombre: {
+    names: {
       type: String,
-      required: [true, 'El nombre es obligatorio'],
+      required: [true, 'Los nombres son obligatorios'],
       trim: true,
+    },
+    code: {
+      type: String,
+      required: [true, 'El código del usuario es obligatorio'],
+      unique: true,
+      trim: true,
+      minlength: 6,
+      maxlength: 6,
     },
     password: {
       type: String,
@@ -17,30 +25,24 @@ const userSchema = new Schema<User>(
       type: String,
       required: [true, 'El correo es obligatorio'],
       trim: true,
-      unique: true,
       lowercase: true,
     },
-    rol: {
+    role: {
       type: String,
       enum: Enum_Rol,
       default: Enum_Rol.VENDEDOR,
     },
-    local: {
-      type: String,
-      enum: Enum_Local,
-      default: Enum_Local.LOCAL1,
+    location: {
+      type: Schema.Types.ObjectId,
+      ref: 'Location',
     },
-    activo: {
+    active: {
       type: Boolean,
       default: true,
-    },
-    hasPassword: {
-      type: Boolean,
-      default: false,
     },
   },
   { timestamps: true }
 );
 
-const User = model('User', userSchema, 'usuarios');
+const User = model('User', userSchema, 'users');
 export default User;

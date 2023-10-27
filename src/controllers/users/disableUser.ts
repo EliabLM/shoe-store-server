@@ -19,32 +19,25 @@ export const disableUser = async (
       throw boom.badRequest('El id del usuario es requerido');
     }
 
-    let response;
-    try {
-      response = await User.findByIdAndUpdate(
-        user_id,
-        { active: false },
-        { new: true }
-      );
-    } catch (error) {
-      throw boom.notFound('No se encontró el usuario');
-    }
+    const disabledUser = await User.findByIdAndUpdate(
+      user_id,
+      { active: false },
+      { new: true }
+    );
+    if (!disabledUser) throw boom.notFound('No se encontró el usuario');
 
-    const userDisabled = {
-      id: response?._id,
-      nombre: response?.nombre,
-      email: response?.email,
-      rol: response?.rol,
-      local: response?.local,
-    };
-
-    const resUserDisabled: IResponse = {
+    const response: IResponse = {
       statusCode: 200,
       message: 'Usuario deshabilitado exitosamente',
-      data: userDisabled,
+      data: {
+        names: disabledUser.names,
+        code: disabledUser.code,
+        email: disabledUser.email,
+        role: disabledUser.role,
+      },
     };
 
-    res.status(200).json(resUserDisabled);
+    res.json(response);
   } catch (error) {
     next(error);
   }

@@ -4,9 +4,10 @@ import { Router } from 'express';
 import {
   createUser,
   signIn,
-  readUsers,
   deleteUser,
   updateUser,
+  getAllUsers,
+  disableUser,
 } from '@controllers/users';
 
 // Middlewares
@@ -21,25 +22,30 @@ import {
 
 export const usersRouter = Router();
 
-// Crear usuarios
+// Create user
 usersRouter.post(
   '/create-user',
   validatorHandler(createUserSchema, 'body'),
   createUser
 );
 
-// Obtener usuarios
-usersRouter.get('/get-users', readUsers);
+// Read users
+usersRouter.get('/get-users', getAllUsers);
 
-// Autenticar usuario
-usersRouter.post('/login', validatorHandler(loginSchema, 'body'), signIn);
-
-// Eliminar usuario
-usersRouter.put('/delete-user', deleteUser);
-
-// Actualizar usuario
+// Update user
 usersRouter.put(
   '/update-user',
   validatorHandler(updateUserSchema, 'body'),
   updateUser
 );
+
+// Delete user
+usersRouter.delete('/delete-user', deleteUser);
+
+// #########################################################
+
+// Authenticate user
+usersRouter.post('/login', validatorHandler(loginSchema, 'body'), signIn);
+
+// Disable user
+usersRouter.patch('/disable-user', disableUser);

@@ -3,6 +3,7 @@ import boom from '@hapi/boom';
 
 // Model
 import User from '@models/users/User.model';
+import Location from '@models/locations/Location.model';
 
 // Interfaces
 import { IResponse } from '../../interfaces';
@@ -13,33 +14,34 @@ export const updateUser = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.body;
+    const { id, location } = req.body;
 
-    try {
-      await User.findById(id);
-    } catch (error) {
-      throw boom.notFound('El usuario no existe en sistema');
-    }
+    const locationExists = await Location.findById(location);
+    if (!locationExists) throw boom.notFound('El local no existe');
 
     const newUser = {
-      nombre: req.body.nombre,
+      names: req.body.names,
+      code: req.body.code,
       email: req.body.email,
-      local: req.body.local,
-      rol: req.body.role,
-      activo: req.body.activo,
+      location: req.body.location,
+      role: req.body.role,
+      active: req.body.active,
     };
 
     const updatedUser = await User.findByIdAndUpdate(id, newUser, {
       new: true,
-    });
+      select: { password: 0 },
+    }).populate('location');
 
-    const resUsuarioCreado: IResponse = {
+    if (!updatedUser) throw boom.notFound('El usuario no existe en sistema');
+
+    const response: IResponse = {
       statusCode: 200,
       message: 'Usuario actualizado exitosamente',
       data: updatedUser,
     };
 
-    res.status(200).json(resUsuarioCreado);
+    res.json(response);
   } catch (error) {
     next(error);
   }

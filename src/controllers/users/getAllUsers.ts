@@ -6,30 +6,31 @@ import User from '@models/users/User.model';
 // Interfaces
 import { IResponse } from '../../interfaces';
 
-export const readUsers = async (
+export const getAllUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const users = await User.find();
+    const users = await User.find().populate('location');
 
-    const newUsers = users.map((user) => ({
+    const allUsers = users.map((user) => ({
       id: user._id,
-      nombre: user.nombre,
+      code: user.code,
+      names: user.names,
       email: user.email,
-      rol: user.rol,
-      local: user.local,
-      activo: user.activo,
+      role: user.role,
+      location: user.location,
+      active: user.active,
     }));
 
-    const resUsers: IResponse = {
+    const response: IResponse = {
       statusCode: 200,
       message: 'Operación realizada exitosamente',
-      data: newUsers,
+      data: allUsers,
     };
 
-    res.json(resUsers);
+    res.json(response);
   } catch (error) {
     next(error);
   }

@@ -13,33 +13,31 @@ export const signIn = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { email, password } = req.body;
-
   try {
-    const user = await User.findOne({ email });
+    const { code, password } = req.body;
 
-    if (!user) {
-      throw boom.notFound('El usuario no se encuentra registrado');
-    }
+    const user = await User.findOne({ code }).populate('location');
+
+    if (!user) throw boom.notFound('El usuario no se encuentra registrado');
 
     const isAuth = await bcrypt.compare(password, user.password);
 
-    if (!isAuth) {
-      throw boom.badRequest('Usuario ó contraseña incorrectos');
-    }
+    if (!isAuth) throw boom.badRequest('Código ó contraseña incorrectos');
 
-    const resSignIn: IResponse = {
+    const response: IResponse = {
       statusCode: 200,
       message: 'Usuario autenticado exitosamente',
       data: {
         id: user._id,
-        nombre: user.nombre,
+        code: user.code,
+        names: user.names,
         email: user.email,
-        rol: user.rol,
-        local: user.local,
+        role: user.role,
+        location: user.location,
       },
     };
-    return res.status(200).json(resSignIn);
+
+    return res.json(response);
   } catch (error) {
     next(error);
   }
