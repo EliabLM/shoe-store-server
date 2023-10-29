@@ -6,4 +6,4 @@ export type Payment_method =
   | 'Daviplata'
   | 'Banco de Bogota'
   | 'Davivienda';
-export type Sale_status = 'Pagada' | 'Pendiente' | 'Cancelada';
+export type Sale_status = 'PAGADA' | 'PENDIENTE' | 'CANCELADA';

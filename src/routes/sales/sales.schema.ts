@@ -79,3 +79,7 @@ export const getSalesByUserSchema = yup.object().shape({
 export const getSalesByCustomerSchema = yup.object().shape({
   customer_id: mongoId.required('El id del cliente es obligatorio'),
 });
+
+export const cancelSaleSchema = yup.object().shape({
+  sale_id: mongoId.required('El id de la venta es obligatorio'),
+});

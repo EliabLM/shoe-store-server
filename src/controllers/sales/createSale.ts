@@ -11,7 +11,7 @@ import Product from '@models/products/Product.model';
 // Interfaces
 import { IResponse } from '../../interfaces';
 
-interface IProduct {
+interface ISaleDetail {
   product_id: string;
   price: number;
   amount: number;
@@ -34,9 +34,9 @@ export const createSale = async (
     if (!customerExists) throw boom.notFound('No existe el cliente');
 
     await Promise.all(
-      products.map(async (product: IProduct) => {
+      products.map(async (saleDetail: ISaleDetail) => {
         const productExists = await Product.findById(
-          product.product_id
+          saleDetail.product_id
         ).populate('brand');
         if (!productExists) throw boom.notFound('No existe el producto');
 
@@ -56,7 +56,7 @@ export const createSale = async (
     });
     const storedSale = await sale.save();
 
-    const saleDetailPromises = products.map((product: IProduct) => {
+    const saleDetailPromises = products.map((product: ISaleDetail) => {
       const saleDetail = new SaleDetail({
         sale: sale._id,
         amount: product.amount,
@@ -71,10 +71,10 @@ export const createSale = async (
     await Promise.all(saleDetailPromises);
 
     await Promise.all(
-      products.map(async (product: IProduct) => {
-        const storedProduct = await Product.findById(product.product_id);
+      products.map(async (saleDetail: ISaleDetail) => {
+        const storedProduct = await Product.findById(saleDetail.product_id);
         if (storedProduct && storedProduct.stock !== undefined) {
-          storedProduct.stock -= product.amount;
+          storedProduct.stock -= saleDetail.amount;
         }
 
         await storedProduct?.save();
