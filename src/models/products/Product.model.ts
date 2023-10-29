@@ -24,6 +24,10 @@ const productSchema = new Schema<IProduct>(
       type: String,
       trim: true,
     },
+    stock: {
+      type: Number,
+      default: 0,
+    },
     price: {
       type: Number,
       required: [true, 'El precio es obligatorio'],
