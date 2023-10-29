@@ -23,6 +23,7 @@ export const getAllProducts = async (
       name: product.name,
       description: product.description ?? '',
       price: product.price,
+      stock: product.stock ?? 0,
       active: product.active,
     }));
 

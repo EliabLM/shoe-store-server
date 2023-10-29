@@ -15,6 +15,10 @@ const price = yup
   .positive('El precio solo acepta números positivos')
   .typeError('Debe ingresar un número')
   .min(10000, 'El valor mínimo es 10.000');
+const stock = yup
+  .number()
+  .typeError('Debe ingresar un número')
+  .positive('La cantidad no puede a 0');
 const active = yup.boolean();
 
 export const createProductSchema = yup.object().shape({
@@ -25,6 +29,7 @@ export const createProductSchema = yup.object().shape({
   name: name.required('El nombre del producto es obligatorio'),
   description,
   price: price.required('El precio es obligatorio'),
+  stock,
 });
 
 export const updateProductSchema = yup.object().shape({
@@ -36,5 +41,6 @@ export const updateProductSchema = yup.object().shape({
   name: name.required('El nombre del producto es obligatorio'),
   description,
   price: price.required('El precio es obligatorio'),
+  stock,
   active: active.required('El estado es obligatorio'),
 });
