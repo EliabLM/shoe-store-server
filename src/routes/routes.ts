@@ -10,6 +10,7 @@ import { locationsRouter } from './locations/locations.routes';
 import { categoriesRouter } from './categories/categories.routes';
 import { productsRouter } from './products';
 import { salesRouter } from './sales';
+import { purchasesRouter } from './purchases';
 
 const routerApi = (app: Express) => {
   const router = Router();
@@ -27,6 +28,7 @@ const routerApi = (app: Express) => {
   router.use('/categories', categoriesRouter);
   router.use('/products', productsRouter);
   router.use('/sales', salesRouter);
+  router.use('/purchases', purchasesRouter);
 };
 
 export default routerApi;

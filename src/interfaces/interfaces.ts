@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { Payment_method, Role, Sale_status } from 'types';
+import { Payment_method, Purchase_status, Role, Sale_status } from 'types';
 
 // User
 export interface User {
@@ -95,6 +95,37 @@ export interface ISaleDetail {
   price: number;
   amount: number;
   subtotal: number;
+}
+
+// Purchases
+export interface IPurchase {
+  user: Types.ObjectId;
+  supplier: Types.ObjectId;
+  total: number;
+  purchase_status?: Purchase_status;
+  expiration_date: string;
+  registration_date: string;
+}
+
+export enum Enum_purchase_status {
+  PAGADA = 'PAGADA',
+  PENDIENTE = 'PENDIENTE',
+  CANCELADA = 'CANCELADA',
+  VENCIDA = 'VENCIDA',
+}
+
+export interface IPurchaseDetail {
+  purchase: Types.ObjectId;
+  product: Types.ObjectId;
+  price: number;
+  amount: number;
+  subtotal: number;
+}
+
+export interface IPurchasePayment {
+  purchase: Types.ObjectId;
+  registration_date: string;
+  amount: number;
 }
 
 // #####################################
