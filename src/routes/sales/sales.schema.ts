@@ -19,6 +19,17 @@ const payment_method = yup
     ],
     'El método de pago no es válido'
   );
+const registration_date = yup
+  .string()
+  .test(
+    'es-formato-iso',
+    'La fecha de registro debe tener formato ISO',
+    (value) => {
+      return /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z?)$/.test(
+        value || ''
+      );
+    }
+  );
 const sale_status = yup
   .string()
   .oneOf(
@@ -60,6 +71,9 @@ export const createSaleSchema = yup.object().shape({
   total: total.required('El total es obligatorio'),
   products: products.min(1, 'Se debe incluir al menos un producto en la venta'),
   payment_method: payment_method.required('El método de pago es obligatorio'),
+  registration_date: registration_date.required(
+    'La fecha de registro es obligatoria'
+  ),
   sale_status: sale_status.required('El estado es obligatorio'),
 });
 
@@ -69,6 +83,9 @@ export const updateSaleSchema = yup.object().shape({
   customer: mongoId.required('El id del cliente es obligatorio'),
   total: total.required('El total es obligatorio'),
   payment_method: payment_method.required('El método de pago es obligatorio'),
+  registration_date: registration_date.required(
+    'La fecha de registro es obligatoria'
+  ),
   sale_status: sale_status.required('El estado es obligatorio'),
 });
 

@@ -71,6 +71,7 @@ export interface ISale {
   total: number;
   payment_method: Payment_method;
   sale_status: Sale_status;
+  registration_date: string;
 }
 
 export enum Enum_Payment_methods {

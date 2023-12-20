@@ -26,6 +26,10 @@ const saleSchema = new Schema<ISale>(
       enum: Enum_Payment_methods,
       required: [true, 'El método de pago es obligatorio'],
     },
+    registration_date: {
+      type: String,
+      required: [true, 'La fecha de registro es obligatoria'],
+    },
     sale_status: {
       type: String,
       enum: Enum_Sale_status,

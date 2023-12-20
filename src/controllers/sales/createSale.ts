@@ -24,8 +24,15 @@ export const createSale = async (
   next: NextFunction
 ) => {
   try {
-    const { user, customer, products, total, payment_method, sale_status } =
-      req.body;
+    const {
+      user,
+      customer,
+      products,
+      total,
+      payment_method,
+      sale_status,
+      registration_date,
+    } = req.body;
 
     const userExists = await User.findById(user);
     if (!userExists) throw boom.notFound('No existe el usuario');
@@ -53,6 +60,7 @@ export const createSale = async (
       total,
       payment_method,
       sale_status,
+      registration_date,
     });
     const storedSale = await sale.save();
 
