@@ -12,10 +12,10 @@ export const createSupplier = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name } = req.body;
+  const { code } = req.body;
 
   try {
-    const supplierExists = await Supplier.findOne({ name });
+    const supplierExists = await Supplier.findOne({ code });
 
     if (supplierExists) {
       throw boom.badRequest('El proveedor ya se encuentra registrado');
@@ -32,6 +32,7 @@ export const createSupplier = async (
         name: storedSupplier.name,
         email: storedSupplier.email,
         contact: storedSupplier.contact,
+        code: storedSupplier.code,
       },
     };
 

@@ -6,13 +6,19 @@ import {
   deleteSupplier,
   getAllSuppliers,
   updateSupplier,
+  updateSupplierState,
 } from '@controllers/suppliers';
 
 // Middlewares
 import { validatorHandler } from '@middlewares/validator.handler';
 
 // Schemas
-import { createSupplierSchema, updateSupplierSchema } from './suppliers.schema';
+import {
+  createSupplierSchema,
+  updateSupplierStateSchema,
+  updateSupplierSchema,
+  deleteSupplierSchema,
+} from './suppliers.schema';
 
 export const suppliersRouter = Router();
 
@@ -34,4 +40,15 @@ suppliersRouter.put(
 );
 
 // Delete supplier
-suppliersRouter.delete('/delete-supplier', deleteSupplier);
+suppliersRouter.delete(
+  '/delete-supplier',
+  validatorHandler(deleteSupplierSchema, 'query'),
+  deleteSupplier
+);
+
+// Update supplier state
+suppliersRouter.patch(
+  '/update-supplier-state',
+  validatorHandler(updateSupplierStateSchema, 'query'),
+  updateSupplierState
+);

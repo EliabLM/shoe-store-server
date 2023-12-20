@@ -12,11 +12,19 @@ export const getAllSuppliers = async (
   next: NextFunction
 ) => {
   try {
-    const suppliers = await Supplier.find();
+    const { active } = req.query;
+
+    let suppliers;
+    if (active) {
+      suppliers = await Supplier.find({ active });
+    } else {
+      suppliers = await Supplier.find();
+    }
 
     const allSuppliers = suppliers.map((supplier) => ({
       id: supplier._id,
       name: supplier.name,
+      code: supplier.code,
       contact: supplier.contact ?? '',
       email: supplier.email ?? '',
       active: supplier.active,

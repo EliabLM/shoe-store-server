@@ -3,6 +3,7 @@ import boom from '@hapi/boom';
 
 // Models
 import Supplier from '@models/supplier/Supplier.model';
+import Purchase from '@models/purchases/Purchase.model';
 
 // Interfaces
 import { IResponse } from '../../interfaces';
@@ -15,12 +16,16 @@ export const deleteSupplier = async (
   try {
     const { supplier_id } = req.query;
 
-    if (!supplier_id) {
-      throw boom.badRequest('El id del proveedor es obligatorio');
-    }
-
     const supplier = await Supplier.findById(supplier_id);
     if (!supplier) throw boom.notFound('No existe el proveedor');
+
+    const purchases = await Purchase.find({ supplier: supplier_id });
+
+    if (purchases.length > 0) {
+      throw boom.badRequest(
+        'No es posible eliminar el proveedor porque tiene compras asociadas, primero elimine las compras asociadas y luego proceda a eliminar el proveedor.'
+      );
+    }
 
     await Supplier.findByIdAndDelete(supplier_id);
 

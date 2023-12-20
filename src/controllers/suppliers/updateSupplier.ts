@@ -23,6 +23,7 @@ export const updateSupplier = async (
       email: req.body.email,
       contact: req.body.contact,
       active: req.body.active,
+      code: req.body.code,
     };
 
     const updatedSupplier = await Supplier.findByIdAndUpdate(id, newSupplier, {

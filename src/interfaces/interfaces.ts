@@ -21,6 +21,7 @@ export enum Enum_Rol {
 // Supplier
 export interface ISupplier {
   name: string;
+  code: string;
   email?: string;
   contact?: string;
   active: boolean;
