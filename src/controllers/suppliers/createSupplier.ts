@@ -18,7 +18,7 @@ export const createSupplier = async (
     const supplierExists = await Supplier.findOne({ code });
 
     if (supplierExists) {
-      throw boom.badRequest('El proveedor ya se encuentra registrado');
+      throw boom.badRequest('Ya existe un proveedor registrado con ese código');
     }
 
     const supplier = new Supplier(req.body);

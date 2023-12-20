@@ -12,11 +12,16 @@ export const updateSupplier = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.body;
+  const { id, code } = req.body;
 
   try {
     const supplier = await Supplier.findById(id);
     if (!supplier) throw boom.notFound('El proveedor no existe');
+
+    const supplierCode = await Supplier.findOne({ code });
+    if (supplierCode && !supplier._id.equals(supplierCode._id)) {
+      throw boom.badRequest('Ya existe un proveedor con el código ingresado');
+    }
 
     const newSupplier = {
       name: req.body.name,
@@ -33,6 +38,7 @@ export const updateSupplier = async (
     const resSupplierUpdated: IResponse = {
       statusCode: 200,
       message: 'Proveedor actualizado exitosamente',
+      // data: updatedSupplier,
       data: updatedSupplier,
     };
 
