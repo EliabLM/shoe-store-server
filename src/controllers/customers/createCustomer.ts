@@ -12,10 +12,10 @@ export const createCustomer = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name } = req.body;
+  const { code } = req.body;
 
   try {
-    const customerExists = await Customer.findOne({ name });
+    const customerExists = await Customer.findOne({ code });
 
     if (customerExists) {
       throw boom.badRequest('El cliente ya se encuentra registrado');
@@ -27,9 +27,10 @@ export const createCustomer = async (
 
     const resCreateCustomer: IResponse = {
       statusCode: 201,
-      message: 'cliente creado exitosamente',
+      message: 'Cliente creado exitosamente',
       data: {
         name: storedCustomer.name,
+        code: storedCustomer.code,
         email: storedCustomer.email,
         contact: storedCustomer.contact,
       },

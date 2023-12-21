@@ -6,13 +6,20 @@ import {
   deleteCustomer,
   getAllCustomers,
   updateCustomer,
+  updateCustomerState,
 } from '@controllers/customers';
 
 // Middlewares
 import { validatorHandler } from '@middlewares/validator.handler';
 
 // Schemas
-import { createCustomerSchema, updateCustomerSchema } from './customers.schema';
+import {
+  createCustomerSchema,
+  deleteCustomerSchema,
+  readCustomersSchema,
+  updateCustomerSchema,
+  updateCustomerStateSchema,
+} from './customers.schema';
 
 export const customersRouter = Router();
 
@@ -24,7 +31,11 @@ customersRouter.post(
 );
 
 // Read customers
-customersRouter.get('/get-customers', getAllCustomers);
+customersRouter.get(
+  '/get-customers',
+  validatorHandler(readCustomersSchema, 'query'),
+  getAllCustomers
+);
 
 // Update customer
 customersRouter.put(
@@ -34,4 +45,15 @@ customersRouter.put(
 );
 
 // Delete customer
-customersRouter.delete('/delete-customer', deleteCustomer);
+customersRouter.delete(
+  '/delete-customer',
+  validatorHandler(deleteCustomerSchema, 'query'),
+  deleteCustomer
+);
+
+// Update customer state
+customersRouter.patch(
+  '/update-customer-state',
+  validatorHandler(updateCustomerStateSchema, 'query'),
+  updateCustomerState
+);

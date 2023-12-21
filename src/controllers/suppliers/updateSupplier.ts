@@ -38,7 +38,6 @@ export const updateSupplier = async (
     const resSupplierUpdated: IResponse = {
       statusCode: 200,
       message: 'Proveedor actualizado exitosamente',
-      // data: updatedSupplier,
       data: updatedSupplier,
     };
 

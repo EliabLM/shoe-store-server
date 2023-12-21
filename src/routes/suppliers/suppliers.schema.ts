@@ -47,3 +47,7 @@ export const updateSupplierStateSchema = yup.object().shape({
 export const deleteSupplierSchema = yup.object().shape({
   supplier_id: mongoId.required('El id del proveedor es obligatorio'),
 });
+
+export const readSuppliersSchema = yup.object().shape({
+  active,
+});

@@ -12,11 +12,19 @@ export const getAllCustomers = async (
   next: NextFunction
 ) => {
   try {
-    const customers = await Customer.find();
+    const { active } = req.query;
+
+    let customers;
+    if (active) {
+      customers = await Customer.find({ active });
+    } else {
+      customers = await Customer.find();
+    }
 
     const allCustomers = customers.map((customer) => ({
       id: customer._id,
       name: customer.name,
+      code: customer.code,
       contact: customer.contact ?? '',
       email: customer.email ?? '',
       active: customer.active,

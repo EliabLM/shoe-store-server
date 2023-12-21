@@ -18,6 +18,7 @@ import {
   updateSupplierStateSchema,
   updateSupplierSchema,
   deleteSupplierSchema,
+  readSuppliersSchema,
 } from './suppliers.schema';
 
 export const suppliersRouter = Router();
@@ -30,7 +31,11 @@ suppliersRouter.post(
 );
 
 // Read suppliers
-suppliersRouter.get('/get-suppliers', getAllSuppliers);
+suppliersRouter.get(
+  '/get-suppliers',
+  validatorHandler(readSuppliersSchema, 'query'),
+  getAllSuppliers
+);
 
 // Update supplier
 suppliersRouter.put(

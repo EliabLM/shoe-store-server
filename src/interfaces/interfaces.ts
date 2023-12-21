@@ -30,6 +30,7 @@ export interface ISupplier {
 // Customer
 export interface ICustomer {
   name: string;
+  code: string;
   email?: string;
   contact?: string;
   active: boolean;

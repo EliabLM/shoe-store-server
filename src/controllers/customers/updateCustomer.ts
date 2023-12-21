@@ -12,15 +12,21 @@ export const updateCustomer = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.body;
+  const { id, code } = req.body;
 
   try {
     const customer = await Customer.findById(id);
     if (!customer) throw boom.notFound('El cliente no existe');
 
+    const customerCode = await Customer.findOne({ code });
+    if (customerCode && !customer._id.equals(customerCode._id)) {
+      throw boom.badRequest('Ya existe un cliente con el código ingresado');
+    }
+
     const newCustomer = {
       name: req.body.name,
       email: req.body.email,
+      code: req.body.code,
       contact: req.body.contact,
       active: req.body.active,
     };
