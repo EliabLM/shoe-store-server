@@ -11,7 +11,7 @@ const customerSchema = new Schema<ICustomer>(
     },
     code: {
       type: String,
-      required: [true, 'El código del usuario es obligatorio'],
+      required: [true, 'El código del cliente es obligatorio'],
       unique: true,
       trim: true,
       minlength: 6,

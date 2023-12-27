@@ -69,7 +69,8 @@ export interface IProduct {
 // Sales
 export interface ISale {
   user: Types.ObjectId;
-  customer: Types.ObjectId;
+  customer?: Types.ObjectId;
+  sale_location: Types.ObjectId;
   total: number;
   payment_method: Payment_method;
   sale_status: Sale_status;

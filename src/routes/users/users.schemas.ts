@@ -21,7 +21,9 @@ const role = yup
     [Enum_Rol.SUPERADMIN, Enum_Rol.ADMIN, Enum_Rol.VENDEDOR],
     'El rol no es válido'
   );
-const active = yup.boolean();
+const active = yup
+  .boolean()
+  .typeError('El estado debe ser un dato verdadero o falso');
 const password = yup
   .string()
   .min(6, 'La contraseña debe tener mínimo 6 caracteres');
@@ -48,4 +50,17 @@ export const updateUserSchema = yup.object().shape({
 export const loginSchema = yup.object().shape({
   code: code.required('El código del usuario es obligatorio'),
   password: password.required('La contraseña es obligatoria'),
+});
+
+export const updateUserStateSchema = yup.object().shape({
+  user_id: mongoId.required('El id del usuario es obligatorio'),
+  active: active.required('El estado es obligatorio'),
+});
+
+export const deleteUserSchema = yup.object().shape({
+  user_id: mongoId.required('El id del usuario es obligatorio'),
+});
+
+export const readUsersSchema = yup.object().shape({
+  active,
 });

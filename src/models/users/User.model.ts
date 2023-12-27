@@ -35,6 +35,7 @@ const userSchema = new Schema<User>(
     location: {
       type: Schema.Types.ObjectId,
       ref: 'Location',
+      required: [true, 'El local es obligatorio'],
     },
     active: {
       type: Boolean,

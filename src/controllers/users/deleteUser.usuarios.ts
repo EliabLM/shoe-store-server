@@ -15,8 +15,6 @@ export const deleteUser = async (
   try {
     const { user_id } = req.query;
 
-    if (!user_id) throw boom.badRequest('El id del usuario es obligatorio');
-
     const user = await User.findById(user_id);
     if (!user) throw boom.notFound('No existe el usuario');
 

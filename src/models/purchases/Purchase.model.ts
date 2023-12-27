@@ -23,7 +23,7 @@ const purchaseSchema = new Schema<IPurchase>(
     },
     registration_date: {
       type: String,
-      required: [true, 'La fecha de registro es obligatoria'],
+      required: [true, 'La fecha de compra es obligatoria'],
     },
     purchase_status: {
       type: String,

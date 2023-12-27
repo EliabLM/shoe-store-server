@@ -11,7 +11,7 @@ const supplierSchema = new Schema<ISupplier>(
     },
     code: {
       type: String,
-      required: [true, 'El código del usuario es obligatorio'],
+      required: [true, 'El código del proveedor es obligatorio'],
       unique: true,
       trim: true,
       minlength: 6,

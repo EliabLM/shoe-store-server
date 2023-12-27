@@ -7,7 +7,7 @@ import {
   deleteUser,
   updateUser,
   getAllUsers,
-  disableUser,
+  updateUserState,
 } from '@controllers/users';
 
 // Middlewares
@@ -18,6 +18,9 @@ import {
   createUserSchema,
   updateUserSchema,
   loginSchema,
+  readUsersSchema,
+  updateUserStateSchema,
+  deleteUserSchema,
 } from './users.schemas';
 
 export const usersRouter = Router();
@@ -30,7 +33,11 @@ usersRouter.post(
 );
 
 // Read users
-usersRouter.get('/get-users', getAllUsers);
+usersRouter.get(
+  '/get-users',
+  validatorHandler(readUsersSchema, 'query'),
+  getAllUsers
+);
 
 // Update user
 usersRouter.put(
@@ -40,12 +47,20 @@ usersRouter.put(
 );
 
 // Delete user
-usersRouter.delete('/delete-user', deleteUser);
+usersRouter.delete(
+  '/delete-user',
+  validatorHandler(deleteUserSchema, 'query'),
+  deleteUser
+);
 
 // #########################################################
 
 // Authenticate user
 usersRouter.post('/login', validatorHandler(loginSchema, 'body'), signIn);
 
-// Disable user
-usersRouter.patch('/disable-user', disableUser);
+// Update user state
+usersRouter.patch(
+  '/update-user-state',
+  validatorHandler(updateUserStateSchema, 'query'),
+  updateUserState
+);

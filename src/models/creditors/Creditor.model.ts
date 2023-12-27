@@ -20,5 +20,5 @@ const creditorSchema = new Schema<ICreditor>(
   { timestamps: true }
 );
 
-const Creditor = model('Creditor', creditorSchema, 'acreedores');
+const Creditor = model('Creditor', creditorSchema, 'creditors');
 export default Creditor;

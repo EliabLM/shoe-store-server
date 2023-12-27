@@ -12,7 +12,14 @@ export const getAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    const users = await User.find().populate('location');
+    const { active } = req.query;
+
+    let users;
+    if (active) {
+      users = await User.find({ active }).populate('location');
+    } else {
+      users = await User.find().populate('location');
+    }
 
     const allUsers = users.map((user) => ({
       id: user._id,
