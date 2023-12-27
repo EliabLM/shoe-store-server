@@ -15,7 +15,6 @@ const saleSchema = new Schema<ISale>(
     customer: {
       type: Schema.Types.ObjectId,
       ref: 'Customer',
-      required: [true, 'El cliente es obligatorio'],
     },
     total: {
       type: Number,
@@ -29,6 +28,11 @@ const saleSchema = new Schema<ISale>(
     registration_date: {
       type: String,
       required: [true, 'La fecha de registro es obligatoria'],
+    },
+    sale_location: {
+      type: Schema.Types.ObjectId,
+      ref: 'Location',
+      required: [true, 'El local es obligatorio'],
     },
     sale_status: {
       type: String,

@@ -32,13 +32,16 @@ export const createSale = async (
       payment_method,
       sale_status,
       registration_date,
+      sale_location,
     } = req.body;
 
     const userExists = await User.findById(user);
     if (!userExists) throw boom.notFound('No existe el usuario');
 
-    const customerExists = await Customer.findById(customer);
-    if (!customerExists) throw boom.notFound('No existe el cliente');
+    if (customer) {
+      const customerExists = await Customer.findById(customer);
+      if (!customerExists) throw boom.notFound('No existe el cliente');
+    }
 
     await Promise.all(
       products.map(async (saleDetail: ISaleDetail) => {
@@ -54,6 +57,8 @@ export const createSale = async (
       })
     );
 
+    // TODO Verificar el total de la venta con el subtotal de productos
+
     const sale = new Sale({
       user,
       customer,
@@ -61,6 +66,7 @@ export const createSale = async (
       payment_method,
       sale_status,
       registration_date,
+      sale_location,
     });
     const storedSale = await sale.save();
 

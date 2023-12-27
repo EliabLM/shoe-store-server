@@ -67,7 +67,7 @@ const products = yup.array().of(product);
 
 export const createSaleSchema = yup.object().shape({
   user: mongoId.required('El id del usuario es obligatorio'),
-  customer: mongoId.required('El id del cliente es obligatorio'),
+  sale_location: mongoId.required('El id del local es obligatorio'),
   total: total.required('El total es obligatorio'),
   products: products.min(1, 'Se debe incluir al menos un producto en la venta'),
   payment_method: payment_method.required('El método de pago es obligatorio'),
@@ -80,7 +80,7 @@ export const createSaleSchema = yup.object().shape({
 export const updateSaleSchema = yup.object().shape({
   id: mongoId.required('El id de la venta es obligatorio'),
   user: mongoId.required('El id del usuario es obligatorio'),
-  customer: mongoId.required('El id del cliente es obligatorio'),
+  sale_location: mongoId.required('El id del local es obligatorio'),
   total: total.required('El total es obligatorio'),
   payment_method: payment_method.required('El método de pago es obligatorio'),
   registration_date: registration_date.required(
