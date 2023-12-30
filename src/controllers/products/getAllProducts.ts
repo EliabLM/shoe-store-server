@@ -12,12 +12,22 @@ export const getAllProducts = async (
   next: NextFunction
 ) => {
   try {
-    const products = await Product.find()
-      .populate({ path: 'brand', select: '-createdAt -updatedAt' })
-      .populate({ path: 'categories', select: '-createdAt -updatedAt' });
+    const { active } = req.query;
+
+    let products;
+    if (active) {
+      products = await Product.find({ active })
+        .populate({ path: 'brand', select: '-createdAt -updatedAt' })
+        .populate({ path: 'categories', select: '-createdAt -updatedAt' });
+    } else {
+      products = await Product.find()
+        .populate({ path: 'brand', select: '-createdAt -updatedAt' })
+        .populate({ path: 'categories', select: '-createdAt -updatedAt' });
+    }
 
     const allProducts = products.map((product) => ({
       id: product._id,
+      code: product.code,
       brand: product.brand,
       categories: product.categories,
       name: product.name,

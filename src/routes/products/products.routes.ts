@@ -6,13 +6,20 @@ import {
   deleteProduct,
   getAllProducts,
   updateProduct,
+  updateProductState,
 } from '@controllers/products';
 
 // Middlewares
 import { validatorHandler } from '@middlewares/validator.handler';
 
 // Schemas
-import { createProductSchema, updateProductSchema } from './products.schema';
+import {
+  createProductSchema,
+  deleteProductSchema,
+  readProductsSchema,
+  updateProductSchema,
+  updateProductStateSchema,
+} from './products.schema';
 
 export const productsRouter = Router();
 
@@ -24,7 +31,11 @@ productsRouter.post(
 );
 
 // Read products
-productsRouter.get('/get-products', getAllProducts);
+productsRouter.get(
+  '/get-products',
+  validatorHandler(readProductsSchema, 'query'),
+  getAllProducts
+);
 
 // Update product
 productsRouter.put(
@@ -34,4 +45,15 @@ productsRouter.put(
 );
 
 // Delete product
-productsRouter.delete('/delete-product', deleteProduct);
+productsRouter.delete(
+  '/delete-product',
+  validatorHandler(deleteProductSchema, 'query'),
+  deleteProduct
+);
+
+// Update producto state
+productsRouter.patch(
+  '/update-product-state',
+  validatorHandler(updateProductStateSchema, 'query'),
+  updateProductState
+);

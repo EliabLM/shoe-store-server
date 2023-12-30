@@ -19,6 +19,7 @@ export const updateProduct = async (
     if (!product) throw boom.notFound('El producto no existe');
 
     const newProduct: IProduct = {
+      code: product.code,
       name: req.body.name,
       description: req.body.description,
       price: req.body.price,

@@ -14,6 +14,14 @@ const productSchema = new Schema<IProduct>(
         ref: 'Category',
       },
     ],
+    code: {
+      type: String,
+      required: [true, 'El código del producto es obligatorio'],
+      unique: true,
+      trim: true,
+      minlength: 1,
+      maxlength: 6,
+    },
     name: {
       type: String,
       required: [true, 'El nombre es obligatorio'],

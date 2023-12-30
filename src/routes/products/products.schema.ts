@@ -18,10 +18,20 @@ const price = yup
 const stock = yup
   .number()
   .typeError('Debe ingresar un número')
-  .positive('La cantidad no puede a 0');
-const active = yup.boolean();
+  .positive('La cantidad debe ser mayor a 0');
+const active = yup
+  .boolean()
+  .typeError('El estado debe ser un valor verdadero o falso');
+
+const code = yup
+  .string()
+  .matches(
+    /^[A-Z0-9]{1,6}$/,
+    'El código debe tener mínimo 1 y máximo 6 caracteres, compuestos por letras mayúsculas y números'
+  );
 
 export const createProductSchema = yup.object().shape({
+  code: code.required('El código del producto es obligatorio'),
   brand: mongoId.required('La marca es obligatoria'),
   categories: categories.required(
     'Las categorías son obligatorias, debe ingresar por lo menos una'
@@ -43,4 +53,17 @@ export const updateProductSchema = yup.object().shape({
   price: price.required('El precio es obligatorio'),
   stock,
   active: active.required('El estado es obligatorio'),
+});
+
+export const updateProductStateSchema = yup.object().shape({
+  product_id: mongoId.required('El id del producto es obligatorio'),
+  active: active.required('El estado es obligatorio'),
+});
+
+export const deleteProductSchema = yup.object().shape({
+  product_id: mongoId.required('El id del producto es obligatorio'),
+});
+
+export const readProductsSchema = yup.object().shape({
+  active,
 });

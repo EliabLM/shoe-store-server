@@ -59,6 +59,7 @@ export interface ICategory {
 export interface IProduct {
   brand: Types.ObjectId;
   categories: Types.ObjectId[];
+  code: string;
   name: string;
   description?: string;
   stock?: number;

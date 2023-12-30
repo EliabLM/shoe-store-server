@@ -1,29 +1,32 @@
 import { NextFunction, Request, Response } from 'express';
 import boom from '@hapi/boom';
 
-// Models
+// Model
 import Product from '@models/products/Product.model';
 
 // Interfaces
 import { IResponse } from '../../interfaces';
 
-export const deleteProduct = async (
+export const updateProductState = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { product_id } = req.query;
+    const { product_id, active } = req.query;
 
-    const product = await Product.findById(product_id);
-    if (!product) throw boom.notFound('No existe el producto');
+    const product = await Product.findByIdAndUpdate(
+      product_id,
+      { active },
+      { new: true }
+    );
 
-    await Product.findByIdAndDelete(product_id);
+    if (!product) throw boom.notFound('No se encontró el producto');
 
     const response: IResponse = {
       statusCode: 200,
-      message: 'Producto eliminado exitosamente',
-      data: null,
+      message: 'Estado actualizado exitosamente',
+      data: product,
     };
 
     res.json(response);
