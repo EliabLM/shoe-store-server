@@ -16,9 +16,9 @@ export const getAllUsers = async (
 
     let users;
     if (active) {
-      users = await User.find({ active }).populate('location');
+      users = await User.find({ active });
     } else {
-      users = await User.find().populate('location');
+      users = await User.find();
     }
 
     const allUsers = users.map((user) => ({
@@ -27,7 +27,11 @@ export const getAllUsers = async (
       names: user.names,
       email: user.email,
       role: user.role,
-      location: user.location,
+      location: {
+        name: user.location.name ?? '',
+        description: user.location?.description ?? '',
+        location_id: user.location.location_id ?? '',
+      },
       active: user.active,
     }));
 

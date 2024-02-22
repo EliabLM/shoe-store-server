@@ -27,6 +27,11 @@ const active = yup
 const password = yup
   .string()
   .min(6, 'La contraseña debe tener mínimo 6 caracteres');
+const location = yup.object().shape({
+  name: yup.string().required('El nombre del local es obligatorio'),
+  description: yup.string().nullable(),
+  location_id: mongoId.required('El id del local es obligatorio'),
+});
 
 export const createUserSchema = yup.object().shape({
   names: names.required('Los nombres son obligatorios'),
@@ -34,16 +39,15 @@ export const createUserSchema = yup.object().shape({
   password: password.required('La contraseña es obligatoria'),
   email: email.required('El correo electrónico es obligatorio'),
   role: role.required('El rol es obligatorio'),
-  location: mongoId.required('El id del local es obligatorio'),
+  location: location.required('El local es obligatorio'),
 });
 
 export const updateUserSchema = yup.object().shape({
   id: mongoId.required('El id del usuario es obligatorio'),
   names: names.required('Los nombres son obligatorios'),
-  code: code.required('El código es obligatorio'),
   email: email.required('El correo electrónico es obligatorio'),
   role: role.required('El rol es obligatorio'),
-  location: mongoId.required('El id del local es obligatorio'),
+  location: location.required('El local es obligatorio'),
   active: active.required('El estado es obligatorio'),
 });
 

@@ -3,7 +3,6 @@ import boom from '@hapi/boom';
 
 // Model
 import User from '@models/users/User.model';
-import Location from '@models/locations/Location.model';
 
 // Interfaces
 import { IResponse } from '../../interfaces';
@@ -14,14 +13,10 @@ export const updateUser = async (
   next: NextFunction
 ) => {
   try {
-    const { id, location } = req.body;
-
-    const locationExists = await Location.findById(location);
-    if (!locationExists) throw boom.notFound('El local no existe');
+    const { id } = req.body;
 
     const newUser = {
       names: req.body.names,
-      code: req.body.code,
       email: req.body.email,
       location: req.body.location,
       role: req.body.role,
@@ -31,7 +26,7 @@ export const updateUser = async (
     const updatedUser = await User.findByIdAndUpdate(id, newUser, {
       new: true,
       select: { password: 0 },
-    }).populate('location');
+    });
 
     if (!updatedUser) throw boom.notFound('El usuario no existe en sistema');
 

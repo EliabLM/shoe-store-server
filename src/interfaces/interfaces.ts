@@ -8,7 +8,11 @@ export interface User {
   password: string;
   email: string;
   role: Role;
-  location: Types.ObjectId;
+  location: {
+    location_id: Types.ObjectId;
+    name: string;
+    description?: string;
+  };
   active: boolean;
 }
 

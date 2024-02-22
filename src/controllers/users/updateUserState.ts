@@ -19,7 +19,7 @@ export const updateUserState = async (
       user_id,
       { active },
       { new: true }
-    ).populate('location');
+    );
     if (!user) throw boom.notFound('No se encontró el usuario');
 
     const response: IResponse = {
@@ -30,7 +30,11 @@ export const updateUserState = async (
         code: user.code,
         email: user.email,
         role: user.role,
-        location: user.location,
+        location: {
+          name: user.location.name ?? '',
+          description: user.location?.description ?? '',
+          location_id: user.location.location_id ?? '',
+        },
         active: user.active,
       },
     };

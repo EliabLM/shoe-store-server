@@ -4,7 +4,6 @@ import boom from '@hapi/boom';
 
 // Model
 import User from '@models/users/User.model';
-import Location from '@models/locations/Location.model';
 
 // Interfaces
 import { IResponse } from '../../interfaces';
@@ -14,7 +13,7 @@ export const createUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { code, location } = req.body;
+  const { code } = req.body;
 
   try {
     const existUser = await User.findOne({ code });
@@ -22,9 +21,6 @@ export const createUser = async (
     if (existUser) {
       throw boom.badRequest('Ya existe un usuario registrado con ese código');
     }
-
-    const locationExists = await Location.findById(location);
-    if (!locationExists) throw boom.notFound('El local no existe');
 
     const user = new User(req.body);
 
@@ -41,6 +37,11 @@ export const createUser = async (
         code: storedUser.code,
         email: storedUser.email,
         role: storedUser.role,
+        location: {
+          name: storedUser.location.name ?? '',
+          description: storedUser.location?.description ?? '',
+          location_id: storedUser.location.location_id ?? '',
+        },
       },
     };
 

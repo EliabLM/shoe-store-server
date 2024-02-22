@@ -33,8 +33,23 @@ const userSchema = new Schema<User>(
       default: Enum_Rol.VENDEDOR,
     },
     location: {
-      type: Schema.Types.ObjectId,
-      ref: 'Location',
+      type: {
+        name: {
+          type: String,
+          required: [true, 'El nombre es obligatorio'],
+          lowercase: true,
+          trim: true,
+        },
+        description: {
+          type: String,
+          trim: true,
+        },
+        location_id: {
+          type: Schema.Types.ObjectId,
+          ref: 'Location',
+          required: [true, 'El id del local es obligatorio'],
+        },
+      },
       required: [true, 'El local es obligatorio'],
     },
     active: {
