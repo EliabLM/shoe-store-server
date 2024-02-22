@@ -12,7 +12,12 @@ import {
 import { validatorHandler } from '@middlewares/validator.handler';
 
 // Schemas
-import { createBrandSchema, updateBrandSchema } from './brands.schema';
+import {
+  createBrandSchema,
+  deleteBrandSchema,
+  readBrandsSchema,
+  updateBrandSchema,
+} from './brands.schema';
 
 export const brandsRouter = Router();
 
@@ -24,7 +29,11 @@ brandsRouter.post(
 );
 
 // Read brands
-brandsRouter.get('/get-brands', getAllBrands);
+brandsRouter.get(
+  '/get-brands',
+  validatorHandler(readBrandsSchema, 'query'),
+  getAllBrands
+);
 
 // Update brand
 brandsRouter.put(
@@ -34,4 +43,8 @@ brandsRouter.put(
 );
 
 // Delete brand
-brandsRouter.delete('/delete-brand', deleteBrand);
+brandsRouter.delete(
+  '/delete-brand',
+  validatorHandler(deleteBrandSchema, 'query'),
+  deleteBrand
+);

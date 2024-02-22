@@ -12,7 +12,14 @@ export const getAllBrands = async (
   next: NextFunction
 ) => {
   try {
-    const brands = await Brand.find();
+    const { active } = req.query;
+
+    let brands;
+    if (active) {
+      brands = await Brand.find({ active });
+    } else {
+      brands = await Brand.find();
+    }
 
     const allBrands = brands.map((brand) => ({
       id: brand._id,

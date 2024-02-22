@@ -12,11 +12,16 @@ export const updateBrand = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.body;
+  const { id, name } = req.body;
 
   try {
     const brand = await Brand.findById(id);
     if (!brand) throw boom.notFound('La marca no existe');
+
+    const brandName = await Brand.findOne({ name });
+    if (brandName && !brand._id.equals(brandName._id)) {
+      throw boom.badRequest('Ya existe una marca con el nombre ingresado');
+    }
 
     const newBrand = {
       name: req.body.name,

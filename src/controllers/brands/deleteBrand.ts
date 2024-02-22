@@ -15,10 +15,6 @@ export const deleteBrand = async (
   try {
     const { brand_id } = req.query;
 
-    if (!brand_id) {
-      throw boom.badRequest('El id de la marca es obligatorio');
-    }
-
     const brand = await Brand.findById(brand_id);
     if (!brand) throw boom.notFound('No existe la marca');
 
