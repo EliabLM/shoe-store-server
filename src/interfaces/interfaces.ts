@@ -62,9 +62,9 @@ export interface IPaymentMethods {
 
 // Products
 export interface IProduct {
+  product_id: number;
   brand: Types.ObjectId;
   categories: Types.ObjectId[];
-  code: string;
   name: string;
   description?: string;
   stock?: number;

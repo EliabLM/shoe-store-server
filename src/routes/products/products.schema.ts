@@ -1,6 +1,9 @@
 import * as yup from 'yup';
 
-const mongoId = yup.string().matches(/^[0-9a-fA-F]{24}$/, 'El id no es válido');
+const mongoId = yup
+  .string()
+  .matches(/^[0-9a-fA-F]{24}$/, 'El id no es válido')
+  .typeError('El id debe ser una cadena de texto');
 const categories = yup
   .array()
   .of(mongoId)
@@ -9,7 +12,9 @@ const name = yup
   .string()
   .min(3, 'El nombres debe tener mínimo 3 caracteres')
   .max(30, 'El nombre debe tener máximo 30 caracteres');
-const description = yup.string();
+const description = yup
+  .string()
+  .typeError('La descripción debe ser una cadena de texto');
 const price = yup
   .number()
   .positive('El precio solo acepta números positivos')
@@ -23,15 +28,7 @@ const active = yup
   .boolean()
   .typeError('El estado debe ser un valor verdadero o falso');
 
-const code = yup
-  .string()
-  .matches(
-    /^[A-Z0-9]{1,6}$/,
-    'El código debe tener mínimo 1 y máximo 6 caracteres, compuestos por letras mayúsculas y números'
-  );
-
 export const createProductSchema = yup.object().shape({
-  code: code.required('El código del producto es obligatorio'),
   brand: mongoId.required('La marca es obligatoria'),
   categories: categories.required(
     'Las categorías son obligatorias, debe ingresar por lo menos una'

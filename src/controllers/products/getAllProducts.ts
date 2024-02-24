@@ -25,22 +25,27 @@ export const getAllProducts = async (
         .populate({ path: 'categories', select: '-createdAt -updatedAt' });
     }
 
-    const allProducts = products.map((product) => ({
-      id: product._id,
-      code: product.code,
-      brand: product.brand,
-      categories: product.categories,
-      name: product.name,
-      description: product.description ?? '',
-      price: product.price,
-      stock: product.stock ?? 0,
-      active: product.active,
-    }));
+    // TODO
+    // const allProducts = products.map((product) => {
+    //   console.log('🚀 ~ allProducts ~ product:', product);
+
+    //   return {
+    //     mongo_id: product._id,
+    //     id: product.product_id ?? 0,
+    //     brand: product.brand,
+    //     categories: product.categories,
+    //     name: product.name,
+    //     description: product.description ?? '',
+    //     price: product.price,
+    //     stock: product.stock ?? 0,
+    //     active: product.active,
+    //   };
+    // });
 
     const response: IResponse = {
       statusCode: 200,
       message: 'Operación realizada exitosamente',
-      data: allProducts,
+      data: products,
     };
 
     res.json(response);

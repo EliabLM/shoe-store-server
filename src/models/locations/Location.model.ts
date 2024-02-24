@@ -22,5 +22,5 @@ const locationSchema = new Schema<ILocation>(
   { timestamps: true }
 );
 
-const Brand = model('Location', locationSchema, 'locations');
-export default Brand;
+const Location = model('Location', locationSchema, 'locations');
+export default Location;
