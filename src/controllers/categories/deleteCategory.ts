@@ -15,10 +15,6 @@ export const deleteCategory = async (
   try {
     const { category_id } = req.query;
 
-    if (!category_id) {
-      throw boom.badRequest('El id de la categoría es obligatorio');
-    }
-
     const category = await Category.findById(category_id);
     if (!category) throw boom.notFound('No existe la categoría');
 

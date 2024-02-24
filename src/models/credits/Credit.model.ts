@@ -29,5 +29,5 @@ const creditSchema = new Schema<ICredit>(
   { timestamps: true }
 );
 
-const Credit = model('Credit', creditSchema, 'creditos');
+const Credit = model('Credit', creditSchema, 'credits');
 export default Credit;

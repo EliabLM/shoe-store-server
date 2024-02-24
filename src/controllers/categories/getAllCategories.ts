@@ -12,7 +12,14 @@ export const getAllCategories = async (
   next: NextFunction
 ) => {
   try {
-    const categories = await Category.find();
+    const { active } = req.query;
+
+    let categories;
+    if (active) {
+      categories = await Category.find({ active });
+    } else {
+      categories = await Category.find();
+    }
 
     const allCategories = categories.map((category) => ({
       id: category._id,

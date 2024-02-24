@@ -12,7 +12,14 @@ export const getAllLocations = async (
   next: NextFunction
 ) => {
   try {
-    const locations = await Location.find();
+    const { active } = req.query;
+
+    let locations;
+    if (active) {
+      locations = await Location.find({ active });
+    } else {
+      locations = await Location.find();
+    }
 
     const allLocations = locations.map((location) => ({
       id: location._id,

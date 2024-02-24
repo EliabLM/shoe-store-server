@@ -15,10 +15,6 @@ export const deleteLocation = async (
   try {
     const { location_id } = req.query;
 
-    if (!location_id) {
-      throw boom.badRequest('El id del local es obligatorio');
-    }
-
     const location = await Location.findById(location_id);
     if (!location) throw boom.notFound('No existe el local');
 

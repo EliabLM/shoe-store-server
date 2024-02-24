@@ -15,6 +15,8 @@ import { validatorHandler } from '@middlewares/validator.handler';
 import {
   createCategorySchema,
   updateCategorySchema,
+  readCategoriesSchema,
+  deleteCategorySchema,
 } from './categories.schema';
 
 export const categoriesRouter = Router();
@@ -27,7 +29,11 @@ categoriesRouter.post(
 );
 
 // Read categories
-categoriesRouter.get('/get-categories', getAllCategories);
+categoriesRouter.get(
+  '/get-categories',
+  validatorHandler(readCategoriesSchema, 'query'),
+  getAllCategories
+);
 
 // Update category
 categoriesRouter.put(
@@ -37,4 +43,8 @@ categoriesRouter.put(
 );
 
 // Delete category
-categoriesRouter.delete('/delete-category', deleteCategory);
+categoriesRouter.delete(
+  '/delete-category',
+  validatorHandler(deleteCategorySchema, 'query'),
+  deleteCategory
+);
