@@ -3,7 +3,10 @@ import * as yup from 'yup';
 // Enums
 import { Enum_Rol } from '../../interfaces';
 
-const mongoId = yup.string().matches(/^[0-9a-fA-F]{24}$/, 'El id no es válido');
+const mongoId = yup
+  .string()
+  .matches(/^[0-9a-fA-F]{24}$/, 'El id no es válido')
+  .typeError('El id debe ser una cadena de texto');
 const names = yup
   .string()
   .min(3, 'Los nombres deben tener mínimo 3 caracteres')
@@ -27,11 +30,6 @@ const active = yup
 const password = yup
   .string()
   .min(6, 'La contraseña debe tener mínimo 6 caracteres');
-const location = yup.object().shape({
-  name: yup.string().required('El nombre del local es obligatorio'),
-  description: yup.string().nullable(),
-  location_id: mongoId.required('El id del local es obligatorio'),
-});
 
 export const createUserSchema = yup.object().shape({
   names: names.required('Los nombres son obligatorios'),
@@ -39,7 +37,9 @@ export const createUserSchema = yup.object().shape({
   password: password.required('La contraseña es obligatoria'),
   email: email.required('El correo electrónico es obligatorio'),
   role: role.required('El rol es obligatorio'),
-  location: location.required('El local es obligatorio'),
+  location: mongoId
+    .required('El local es obligatorio')
+    .typeError('El id del local debe ser una cadena de texto'),
 });
 
 export const updateUserSchema = yup.object().shape({
@@ -47,7 +47,9 @@ export const updateUserSchema = yup.object().shape({
   names: names.required('Los nombres son obligatorios'),
   email: email.required('El correo electrónico es obligatorio'),
   role: role.required('El rol es obligatorio'),
-  location: location.required('El local es obligatorio'),
+  location: mongoId
+    .required('El local es obligatorio')
+    .typeError('El id del local debe ser una cadena de texto'),
   active: active.required('El estado es obligatorio'),
 });
 

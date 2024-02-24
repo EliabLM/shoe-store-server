@@ -27,7 +27,8 @@ export const createUser = async (
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(req.body.password, salt);
 
-    const storedUser = await user.save();
+    let storedUser = await user.save();
+    storedUser = await storedUser.populate('location');
 
     const resUsuarioCreado: IResponse = {
       statusCode: 201,
@@ -37,11 +38,7 @@ export const createUser = async (
         code: storedUser.code,
         email: storedUser.email,
         role: storedUser.role,
-        location: {
-          name: storedUser.location.name ?? '',
-          description: storedUser.location?.description ?? '',
-          location_id: storedUser.location.location_id ?? '',
-        },
+        location: storedUser.location,
       },
     };
 

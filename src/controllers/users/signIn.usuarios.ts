@@ -16,7 +16,7 @@ export const signIn = async (
   try {
     const { code, password } = req.body;
 
-    const user = await User.findOne({ code });
+    const user = await User.findOne({ code }).populate('location');
 
     if (!user) throw boom.notFound('El usuario no se encuentra registrado');
 
@@ -33,11 +33,7 @@ export const signIn = async (
         names: user.names,
         email: user.email,
         role: user.role,
-        location: {
-          name: user.location.name ?? '',
-          description: user.location?.description ?? '',
-          location_id: user.location.location_id ?? '',
-        },
+        location: user.location,
         active: user.active,
       },
     };
