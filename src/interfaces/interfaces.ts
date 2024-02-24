@@ -59,6 +59,11 @@ export interface ICategory {
   active: boolean;
 }
 
+export interface IPaymentMethods {
+  name: string;
+  active: boolean;
+}
+
 // Products
 export interface IProduct {
   brand: Types.ObjectId;

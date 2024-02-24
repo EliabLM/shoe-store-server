@@ -11,6 +11,7 @@ import { categoriesRouter } from './categories/categories.routes';
 import { productsRouter } from './products';
 import { salesRouter } from './sales';
 import { purchasesRouter } from './purchases';
+import { paymentMethodRouter } from './payment_methods';
 
 const routerApi = (app: Express) => {
   const router = Router();
@@ -29,6 +30,7 @@ const routerApi = (app: Express) => {
   router.use('/products', productsRouter);
   router.use('/sales', salesRouter);
   router.use('/purchases', purchasesRouter);
+  router.use('/payment-methods', paymentMethodRouter);
 };
 
 export default routerApi;
