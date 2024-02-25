@@ -12,11 +12,16 @@ export const updateLocation = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.body;
+  const { id, name } = req.body;
 
   try {
     const location = await Location.findById(id);
     if (!location) throw boom.notFound('El local no existe');
+
+    const locationName = await Location.findOne({ name });
+    if (locationName && !location._id.equals(locationName._id)) {
+      throw boom.badRequest('Ya existe un local con el nombre ingresado');
+    }
 
     const newLocation = {
       name: req.body.name,
