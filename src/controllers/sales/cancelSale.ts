@@ -3,7 +3,6 @@ import boom from '@hapi/boom';
 
 // Model
 import Sale from '@models/sales/Sale.model';
-import SaleDetail from '@models/sales_detail/SaleDetail.model';
 import Product from '@models/products/Product.model';
 
 // Interfaces
@@ -23,18 +22,17 @@ export const cancelSale = async (
     if (saleExists.sale_status === Enum_Sale_status.CANCELADA)
       throw boom.badRequest('La venta se encuentra cancelada');
 
-    const salesDetailExists = await SaleDetail.find({ sale: sale_id });
+    for (const saleDetail of saleExists.sale_detail) {
+      const storedProduct = await Product.findById(
+        saleDetail.product.product_mongo_id
+      );
 
-    await Promise.all(
-      salesDetailExists.map(async (saleDetail) => {
-        const product = await Product.findById(saleDetail.product);
-        if (product && product.stock !== undefined) {
-          product.stock += saleDetail.amount;
-        }
+      if (storedProduct && storedProduct.stock !== undefined) {
+        storedProduct.stock += saleDetail.amount;
+      }
 
-        await product?.save();
-      })
-    );
+      await storedProduct?.save();
+    }
 
     const canceledSale = await Sale.findByIdAndUpdate(
       sale_id,

@@ -7,7 +7,6 @@ import {
   getAllSales,
   getSalesByCustomer,
   getSalesByUser,
-  getSalesDetail,
 } from '@controllers/sales';
 
 // Middlewares
@@ -19,6 +18,7 @@ import {
   createSaleSchema,
   getSalesByCustomerSchema,
   getSalesByUserSchema,
+  readSales,
 } from './sales.schema';
 
 export const salesRouter = Router();
@@ -30,8 +30,12 @@ salesRouter.post(
   createSale
 );
 
-// Read sales
-salesRouter.get('/get-sales', getAllSales);
+// Get sales
+salesRouter.get(
+  '/get-sales',
+  validatorHandler(readSales, 'query'),
+  getAllSales
+);
 
 // Get sales by user
 salesRouter.get(
@@ -45,13 +49,6 @@ salesRouter.get(
   '/get-sales-by-customer',
   validatorHandler(getSalesByCustomerSchema, 'query'),
   getSalesByCustomer
-);
-
-// Get sales detail
-salesRouter.get(
-  '/get-sales-detail',
-  validatorHandler(cancelSaleSchema, 'query'),
-  getSalesDetail
 );
 
 // Cancel sale

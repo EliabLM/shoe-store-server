@@ -7,18 +7,7 @@ import Customer from '@models/customer/Customer.model';
 
 // Interfaces
 import { IResponse } from '../../interfaces';
-import { Payment_method, Sale_status } from '../../types/types';
-
-interface ISaleRes {
-  _id: string;
-  user: string;
-  customer: string;
-  total: number;
-  payment_method: Payment_method;
-  sale_status: Sale_status;
-  createdAt: string;
-  updatedAt: string;
-}
+import { ISale } from './getAllSales';
 
 export const getSalesByCustomer = async (
   req: Request,
@@ -26,23 +15,33 @@ export const getSalesByCustomer = async (
   next: NextFunction
 ) => {
   try {
-    const { customer_id } = req.query;
+    const { customer_id, sale_status } = req.query;
 
     const customer = await Customer.findById(customer_id);
     if (!customer) throw boom.notFound('No existe el cliente');
 
-    const sales: ISaleRes[] = await Sale.find({
-      customer: customer_id,
-    }).populate({ path: 'user', select: '-createdAt -updatedAt' });
-    // .populate({ path: 'customer', select: '-createdAt -updatedAt' });
+    let sales: ISale[];
+    if (sale_status) {
+      sales = await Sale.find({
+        sale_status,
+        'customer.customer_id': customer_id,
+      });
+    } else {
+      sales = await Sale.find({
+        'customer.customer_id': customer_id,
+      });
+    }
 
     const allSales = sales.map((sale) => ({
       id: sale._id,
       user: sale.user,
-      customer: sale.customer,
+      customer: sale.customer ?? null,
+      sale_location: sale.sale_location,
       total: sale.total,
       payment_method: sale.payment_method,
       sale_status: sale.sale_status,
+      registration_date: sale.registration_date,
+      sale_detail: sale.sale_detail,
       createdAt: sale.createdAt,
       updatedAt: sale.updatedAt,
     }));

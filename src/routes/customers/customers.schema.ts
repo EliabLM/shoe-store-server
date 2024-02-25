@@ -11,8 +11,7 @@ const contact = yup
 const email = yup
   .string()
   .email('Debe ingresar un correo electrónico válido')
-  .min(5, 'El correo electrónico debe tener mínimo 5 caracteres')
-  .max(30, 'El correo electrónico debe tener máximo 30 caracteres');
+  .min(5, 'El correo electrónico debe tener mínimo 5 caracteres');
 const active = yup
   .boolean()
   .typeError('El estado debe ser un valor verdadero o falso');

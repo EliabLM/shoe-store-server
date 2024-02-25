@@ -1,24 +1,38 @@
 import * as yup from 'yup';
-import { Enum_Payment_methods, Enum_Sale_status } from '../../interfaces';
+import { Enum_Rol, Enum_Sale_status } from '../../interfaces';
 
-const mongoId = yup.string().matches(/^[0-9a-fA-F]{24}$/, 'El id no es válido');
+const mongoId = yup
+  .string()
+  .matches(/^[0-9a-fA-F]{24}$/, 'El id no es válido')
+  .typeError('El id debe ser una cadena de texto');
+const names = yup
+  .string()
+  .min(3, 'Los nombres deben tener mínimo 3 caracteres')
+  .max(30, 'Los nombres deben tener máximo 30 caracteres');
+const description = yup
+  .string()
+  .min(3, 'La descripción debe tener mínimo 3 caracteres')
+  .max(200, 'La descripción debe tener máximo 200 caracteres');
+const code = yup
+  .string()
+  .matches(
+    /^[A-Z0-9]{6}$/,
+    'El código debe tener exactamente 6 caracteres, compuestos por letras mayúsculas y números'
+  );
+const email = yup.string().email('Debe ingresar un correo válido');
+const role = yup
+  .string()
+  .oneOf(
+    [Enum_Rol.SUPERADMIN, Enum_Rol.ADMIN, Enum_Rol.VENDEDOR],
+    'El rol no es válido'
+  );
+const contact = yup
+  .string()
+  .max(20, 'El número de contacto debe tener máximo 20 caracteres');
 const total = yup
   .number()
   .typeError('Debe ingresar un número')
   .min(10000, 'El valor mínimo es de $10.000');
-const payment_method = yup
-  .string()
-  .oneOf(
-    [
-      Enum_Payment_methods.Banco_de_bogota,
-      Enum_Payment_methods.Bancolombia,
-      Enum_Payment_methods.Daviplata,
-      Enum_Payment_methods.Davivienda,
-      Enum_Payment_methods.Efectivo,
-      Enum_Payment_methods.Nequi,
-    ],
-    'El método de pago no es válido'
-  );
 const registration_date = yup
   .string()
   .test(
@@ -40,61 +54,139 @@ const sale_status = yup
     ],
     'El estado no es válido'
   );
+const price = yup
+  .number()
+  .typeError('El precio debe ser un número')
+  .positive('El precio debe ser un número positivo');
+const amount = yup
+  .number()
+  .typeError('La cantidad debe ser un número')
+  .positive('La cantidad debe ser un número positivo')
+  .min(1, 'La cantidad mínima es 1');
+const subtotal = yup
+  .number()
+  .typeError('El subtotal debe ser un número')
+  .positive('El subtotal debe ser un número positivo');
+const category = yup
+  .object()
+  .shape({
+    name: names.required('El nombre de la categoría es obligatorio'),
+    category_id: mongoId.required('El id de la categoría es obligatorio'),
+  })
+  .typeError('Debe ingresar un objeto de tipo CATEGORÍA');
 
-const product = yup.object().shape({
-  product_id: yup
-    .string()
-    .matches(/^[0-9a-fA-F]{24}$/, 'El id no es válido')
-    .required('El id del producto es obligatorio'),
-  price: yup
-    .number()
-    .typeError('El precio debe ser un número')
-    .positive('El precio debe ser un número positivo')
-    .required('El precio es obligatorio'),
-  amount: yup
-    .number()
-    .typeError('La cantidad debe ser un número')
-    .positive('La cantidad debe ser un número positivo')
-    .min(1, 'La cantidad mínima es 1')
-    .required('La cantidad es obligatoria'),
-  subtotal: yup
-    .number()
-    .typeError('El subtotal debe ser un número')
-    .positive('El subtotal debe ser un número positivo')
-    .required('El subtotal es obligatorio'),
-});
-const products = yup.array().of(product);
+const sale_detail = yup
+  .object()
+  .shape({
+    product: yup
+      .object()
+      .shape({
+        product_id: yup
+          .number()
+          .typeError('El id del producto debe ser un número')
+          .positive('El id del producto debe ser un número positivo')
+          .integer('El id del producto debe ser un número entero')
+          .required('El id número del producto es obligatorio'),
+        product_mongo_id: mongoId.required('El id del producto es obligatorio'),
+        brand: yup
+          .object()
+          .shape({
+            name: names.required('El nombre de la marca es obligatorio'),
+            brand_id: mongoId.required('El id de la marca es obligatorio'),
+          })
+          .typeError('Debe ingresar un objeto de tipo MARCA')
+          .required('La marca es obligatoria'),
+        categories: yup
+          .array()
+          .of(category)
+          .min(1, 'El producto debe tener por lo menos una categoría')
+          .required('Debe ingresar por lo menos una categoría')
+          .required('Las categorías son obligatorias'),
+        name: names.required('El nombre del producto es obligatorio'),
+        description,
+        stock: yup
+          .number()
+          .typeError('El id del producto debe ser un número')
+          .positive('El id del producto debe ser un número positivo')
+          .integer('El id del producto debe ser un número entero')
+          .required('El stock del producto es obligatorio'),
+        initial_price: price.required(
+          'El precio inicial del producto es obligatorio'
+        ),
+      })
+      .typeError('Debe ingresar un objeto de tipo PRODUCTO'),
+    price: price.required('El precio de venta es obligatorio'),
+    amount: amount.required('La cantidad es obligatoria'),
+    subtotal: subtotal.required('El subtotal es obligatorio'),
+  })
+  .typeError('Debe ingresar un objeto de tipo DETALLE VENTA');
 
 export const createSaleSchema = yup.object().shape({
-  user: mongoId.required('El id del usuario es obligatorio'),
-  sale_location: mongoId.required('El id del local es obligatorio'),
+  user: yup
+    .object()
+    .shape({
+      names: names.required('El nombre del vendedor es obligatorio'),
+      code: code.required('El código del vendedor es obligatorio'),
+      email: email.required('El correo del vendedor es obligatorio'),
+      role: role.required('El rol del vendedor es obligatorio'),
+      user_id: mongoId.required('El id del vendedor es obligatorio'),
+    })
+    .typeError('Debe ingresar un objeto de tipo USUARIO')
+    .required('El vendedor es obligatorio'),
+  customer: yup
+    .object()
+    .shape({
+      name: names,
+      code,
+      email,
+      contact,
+      customer_id: mongoId,
+    })
+    .typeError('Debe ingresar un objeto de tipo CLIENTE')
+    .nullable(),
+  sale_location: yup
+    .object()
+    .shape({
+      name: names.required('El nombre del local es obligatorio'),
+      description: description.required(
+        'La descripción del local es obligatoria'
+      ),
+      sale_location_id: mongoId.required('El id del local es obligatorio'),
+    })
+    .typeError('Debe ingresar un objeto de tipo LOCAL'),
   total: total.required('El total es obligatorio'),
-  products: products.min(1, 'Se debe incluir al menos un producto en la venta'),
-  payment_method: payment_method.required('El método de pago es obligatorio'),
+  payment_method: yup
+    .object()
+    .shape({
+      name: names.required('El nombre del método de pago es obligatorio'),
+      payment_method_id: mongoId.required(
+        'El id del método de pago es obligatorio'
+      ),
+    })
+    .typeError('Debe ingresar un objeto de tipo MÉTODO DE PAGO'),
+  sale_status: sale_status.required('El estado es obligatorio'),
   registration_date: registration_date.required(
     'La fecha de registro es obligatoria'
   ),
-  sale_status: sale_status.required('El estado es obligatorio'),
+  sale_detail: yup
+    .array()
+    .of(sale_detail)
+    .min(1, 'La venta debe tener por lo menos un producto')
+    .required('Debe ingresar el detalle de venta'),
 });
 
-export const updateSaleSchema = yup.object().shape({
-  id: mongoId.required('El id de la venta es obligatorio'),
-  user: mongoId.required('El id del usuario es obligatorio'),
-  sale_location: mongoId.required('El id del local es obligatorio'),
-  total: total.required('El total es obligatorio'),
-  payment_method: payment_method.required('El método de pago es obligatorio'),
-  registration_date: registration_date.required(
-    'La fecha de registro es obligatoria'
-  ),
-  sale_status: sale_status.required('El estado es obligatorio'),
+export const readSales = yup.object().shape({
+  sale_status,
 });
 
 export const getSalesByUserSchema = yup.object().shape({
   user_id: mongoId.required('El id del usuario es obligatorio'),
+  sale_status,
 });
 
 export const getSalesByCustomerSchema = yup.object().shape({
   customer_id: mongoId.required('El id del cliente es obligatorio'),
+  sale_status,
 });
 
 export const cancelSaleSchema = yup.object().shape({

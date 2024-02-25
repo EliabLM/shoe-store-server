@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { Payment_method, Purchase_status, Role, Sale_status } from 'types';
+import { Purchase_status, Role, Sale_status } from 'types';
 
 // User
 export interface User {
@@ -74,37 +74,57 @@ export interface IProduct {
 
 // Sales
 export interface ISale {
-  user: Types.ObjectId;
-  customer?: Types.ObjectId;
-  sale_location: Types.ObjectId;
+  user: {
+    names: string;
+    code: string;
+    password: string;
+    email: string;
+    role: Role;
+    user_id: Types.ObjectId;
+  };
+  customer?: {
+    name: string;
+    code: string;
+    email?: string;
+    contact?: string;
+    customer_id: Types.ObjectId;
+  };
+  sale_location: {
+    name: string;
+    description: string;
+    sale_location_id: Types.ObjectId;
+  };
   total: number;
-  payment_method: Payment_method;
+  payment_method: {
+    name: string;
+    payment_method_id: Types.ObjectId;
+  };
   sale_status: Sale_status;
   registration_date: string;
-}
-
-export enum Enum_Payment_methods {
-  'Efectivo' = 'Efectivo',
-  'Bancolombia' = 'Bancolombia',
-  'Nequi' = 'Nequi',
-  'Daviplata' = 'Daviplata',
-  'Banco_de_bogota' = 'Banco de Bogota',
-  'Davivienda' = 'Davivienda',
+  sale_detail: {
+    product: {
+      product_mongo_id: Types.ObjectId;
+      product_id: number;
+      brand: {
+        name: string;
+        brand_id: Types.ObjectId;
+      };
+      categories: { name: string; category_id: Types.ObjectId }[];
+      name: string;
+      description?: string;
+      stock?: number;
+      initial_price: number;
+    };
+    price: number;
+    amount: number;
+    subtotal: number;
+  }[];
 }
 
 export enum Enum_Sale_status {
   PAGADA = 'PAGADA',
   PENDIENTE = 'PENDIENTE',
   CANCELADA = 'CANCELADA',
-}
-
-// Sales details
-export interface ISaleDetail {
-  sale: Types.ObjectId;
-  product: Types.ObjectId;
-  price: number;
-  amount: number;
-  subtotal: number;
 }
 
 // Purchases
