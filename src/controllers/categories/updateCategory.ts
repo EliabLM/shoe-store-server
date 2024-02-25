@@ -12,7 +12,7 @@ export const updateCategory = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.body;
+  const { id, name } = req.body;
 
   try {
     const category = await Category.findById(id);
