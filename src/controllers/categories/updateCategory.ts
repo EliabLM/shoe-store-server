@@ -18,6 +18,11 @@ export const updateCategory = async (
     const category = await Category.findById(id);
     if (!category) throw boom.notFound('La categoría no existe');
 
+    const categoryName = await Category.findOne({ name });
+    if (categoryName && !category._id.equals(categoryName._id)) {
+      throw boom.badRequest('Ya existe una categoría con el nombre ingresado');
+    }
+
     const newCategory = {
       name: req.body.name,
       active: req.body.active,
