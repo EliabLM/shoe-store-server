@@ -107,9 +107,10 @@ const sale_detail = yup
         description,
         stock: yup
           .number()
-          .typeError('El id del producto debe ser un número')
-          .positive('El id del producto debe ser un número positivo')
-          .integer('El id del producto debe ser un número entero')
+          .typeError('El stock del producto debe ser un número')
+          .positive('El stock del producto debe ser un número positivo')
+          .integer('El stock del producto debe ser un número entero')
+          .min(1, 'El stock del producto no debe ser menor a 1')
           .required('El stock del producto es obligatorio'),
         initial_price: price.required(
           'El precio inicial del producto es obligatorio'
