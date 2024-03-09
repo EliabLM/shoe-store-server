@@ -11,8 +11,9 @@ const names = yup
   .max(30, 'Los nombres deben tener máximo 30 caracteres');
 const description = yup
   .string()
-  .min(3, 'La descripción debe tener mínimo 3 caracteres')
-  .max(200, 'La descripción debe tener máximo 200 caracteres');
+  .typeError('La descripción debe ser una cadena de texto')
+  .max(200, 'La descripción debe tener máximo 200 caracteres')
+  .nullable();
 const code = yup
   .string()
   .matches(
@@ -148,9 +149,7 @@ export const createSaleSchema = yup.object().shape({
     .object()
     .shape({
       name: names.required('El nombre del local es obligatorio'),
-      description: description.required(
-        'La descripción del local es obligatoria'
-      ),
+      description,
       sale_location_id: mongoId.required('El id del local es obligatorio'),
     })
     .typeError('Debe ingresar un objeto de tipo LOCAL'),

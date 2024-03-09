@@ -14,7 +14,9 @@ const name = yup
   .max(30, 'El nombre debe tener máximo 30 caracteres');
 const description = yup
   .string()
-  .typeError('La descripción debe ser una cadena de texto');
+  .typeError('La descripción debe ser una cadena de texto')
+  .max(200, 'La descripción debe tener máximo 200 caracteres')
+  .nullable();
 const price = yup
   .number()
   .positive('El precio solo acepta números positivos')

@@ -7,8 +7,9 @@ const name = yup
   .max(30, 'El nombre debe tener máximo 30 caracteres');
 const description = yup
   .string()
-  .min(3, 'La descripción debe tener mínimo 3 caracteres')
-  .max(200, 'La descripción debe tener máximo 200 caracteres');
+  .typeError('La descripción debe ser una cadena de texto')
+  .max(200, 'La descripción debe tener máximo 200 caracteres')
+  .nullable();
 const active = yup
   .boolean()
   .typeError('El estado debe ser un dato verdadero o falso');
