@@ -177,6 +177,9 @@ export const createSaleSchema = yup.object().shape({
 
 export const readSales = yup.object().shape({
   sale_status,
+  customer_id: mongoId,
+  user_id: mongoId,
+  sale_location: mongoId,
 });
 
 export const getSalesByUserSchema = yup.object().shape({

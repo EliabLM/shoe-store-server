@@ -84,14 +84,17 @@ export const getAllSales = async (
   next: NextFunction
 ) => {
   try {
-    const { sale_status } = req.query;
+    const { sale_status, customer_id, user_id, sale_location } = req.query;
 
-    let sales: ISale[];
-    if (sale_status) {
-      sales = await Sale.find({ sale_status });
-    } else {
-      sales = await Sale.find();
-    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const query: any = {};
+
+    if (sale_status) query.sale_status = sale_status as string;
+    if (customer_id) query['customer.customer_id'] = customer_id;
+    if (user_id) query['user.user_id'] = user_id;
+    if (sale_location) query['sale_location.sale_location_id'] = sale_location;
+
+    const sales: ISale[] = await Sale.find(query);
 
     const allSales = sales.map((sale) => ({
       id: sale._id,
