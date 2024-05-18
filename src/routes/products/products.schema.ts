@@ -50,7 +50,6 @@ export const updateProductSchema = yup.object().shape({
   name: name.required('El nombre del producto es obligatorio'),
   description,
   price: price.required('El precio es obligatorio'),
-  stock,
   active: active.required('El estado es obligatorio'),
 });
 
